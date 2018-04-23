@@ -1,14 +1,30 @@
 !!!
 %html
   %head
-    %meta{:content => "width=device-width, initial-scale=1.0", :name => "viewport"}/
-    %title= content_for?(:title) ? yield(:title) : "Rails Bootstrap"
-    %meta{:content => content_for?(:description) ? yield(:description) : "Rails Bootstrap", :name => "description"}/
-    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track' => 'reload'
-    = javascript_include_tag 'application', 'data-turbolinks-track' => 'reload'
+    %meta{ name: 'viewport', content: 'width=device-width, initial-scale=1.0' }
+    %meta{ name: 'description', content: t('shared.description') }
+
+    %title= t('shared.title')
+
+    = stylesheet_link_tag 'application', media: 'all'
+    = javascript_include_tag 'application'
     = csrf_meta_tags
+
   %body
-    %header= render 'layouts/navigation'
-    %main{:role => "main"}
-      = render 'layouts/messages'
-      = yield
+    %nav.navbar.navbar-dark.fixed-top.bg-dark.flex-md-nowrap.p-0
+      %a.navbar-brand.col-sm-4.col-md-3.col-lg-2.mr-0#logo{ href: root_path }
+        = image_tag('logo.png')
+
+      %ul.navbar-nav.px-3
+        %li.nav-item.text-nowrap
+          %a.nav-link{:href => "#"} Sign out
+
+    .container-fluid
+      .row
+        %main.col-md-9.ml-sm-auto.col-lg-10.px-4{ role: 'main' }
+          = render 'layouts/messages'
+
+          .d-flex.justify-content-between.flex-wrap.flex-md-nowrap.align-items-center.pt-3.pb-2.mb-3.border-bottom
+            %h1.h2 Dashboard
+
+          = yield

@@ -14,6 +14,7 @@ gem 'jquery-rails'
 gem 'hamlit'
 gem 'responders'
 gem 'simple_form'
+gem 'devise'
 
 group :development, :test do
   gem 'byebug'
