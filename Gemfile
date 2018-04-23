@@ -12,13 +12,14 @@ gem 'jbuilder'
 gem 'bootstrap', '~> 4.0.0.alpha6'
 gem 'jquery-rails'
 gem 'hamlit'
+gem 'responders'
+gem 'simple_form'
 
 group :development, :test do
   gem 'byebug'
 end
 
 group :development do
-  gem 'listen'
   gem 'better_errors'
 end
 
