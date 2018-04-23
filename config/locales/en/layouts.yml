@@ -1,0 +1,8 @@
+en:
+  layouts:
+    application:
+      nav:
+        edit: Edit my account
+        sign_out: Sign out
+        login: Login
+        register: Register
