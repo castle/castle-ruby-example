@@ -1,30 +1,27 @@
 !!!
 %html
-  %head
-    %meta{ name: 'viewport', content: 'width=device-width, initial-scale=1.0' }
-    %meta{ name: 'description', content: t('shared.description') }
-
-    %title= t('shared.title')
-
-    = stylesheet_link_tag 'application', media: 'all'
-    = javascript_include_tag 'application'
-    = csrf_meta_tags
+  = render 'layouts/header'
 
   %body
-    %nav.navbar.navbar-dark.fixed-top.bg-dark.flex-md-nowrap.p-0
+    %nav.navbar.navbar-expand-lg.navbar-dark.fixed-top.bg-dark.flex-md-nowrap.p-0
       %a.navbar-brand.col-sm-4.col-md-3.col-lg-2.mr-0#logo{ href: root_path }
         = image_tag('logo.png')
 
       %ul.navbar-nav.px-3
-        %li.nav-item.text-nowrap
-          %a.nav-link{:href => "#"} Sign out
+        - if user_signed_in?
+          %li.nav-item
+            = link_to('Sign out', destroy_user_session_path, method: :delete, class: 'nav-link')
+          %li.nav-item
+            = link_to('Sign out', destroy_user_session_path, method: :delete, class: 'nav-link')
+        - else
+          %li.nav-item
+            = link_to('Login', new_user_session_path, class: 'nav-link')
+          %li.nav-item
+            = link_to('Register', new_user_registration_path, class: 'nav-link')
 
     .container-fluid
       .row
         %main.col-md-9.ml-sm-auto.col-lg-10.px-4{ role: 'main' }
           = render 'layouts/messages'
-
-          .d-flex.justify-content-between.flex-wrap.flex-md-nowrap.align-items-center.pt-3.pb-2.mb-3.border-bottom
-            %h1.h2 Dashboard
 
           = yield

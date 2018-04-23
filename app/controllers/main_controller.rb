@@ -1,3 +1,3 @@
 class MainController < ApplicationController
-  before_action { flash[:notice] = 'aaa' }
+  skip_before_action :authenticate_user!
 end
