@@ -8,6 +8,14 @@ en:
       new:
         button: Sign up
         hint: "%{min} characters minimum"
+      edit:
+        title: Editing account
+        confirmation_pending: 'Currently waiting confirmation for: %#{email}'
+        password_hint: "leave it blank if you don't want to change it"
+        current_password_hint: "we need your current password to confirm your changes"
+        button: Update
+        cancel: Cancel my account
+        back: Back
     shared:
       links:
         log_in: Log in
