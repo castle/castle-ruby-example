@@ -1,5 +1,8 @@
 en:
   users:
+    omniauth_callbacks:
+      twitter:
+        error: We were unable to sign you in with Twitter right now.
     sessions:
       new:
         title: Log in
