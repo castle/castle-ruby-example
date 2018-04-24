@@ -1,8 +1,8 @@
 .jumbotron
-  %h1.display-4 Welcome to the Castle Rails example app
+  %h1.display-4 Castle Rails example app
 
 .d-flex.justify-content-between.flex-wrap.flex-md-nowrap.align-items-center.pt-3.pb-2.mb-3.border-bottom
-  %h1.h2 About Castle.io Example App
+  %h2.h2 About Castle.io Example App
 
 %p.lead
   This app was made to illustrate how Castle.io can be integrated within a Ruby on Rails application. It includes:
@@ -10,10 +10,18 @@
     %li
       User model with Devise authentication
     %li
-      Some relations (blog posts)
-    %li
       Profile update
     %li
       Password change
     %li
-      Facebook OAuth signup
+      Twitter OAuth signup
+
+.d-flex.justify-content-between.flex-wrap.flex-md-nowrap.align-items-center.pt-3.pb-2.mb-3.border-bottom
+  %h2.h2 Details
+
+%p
+  In order to make Twitter OAuth work you need to:
+
+  %ul
+    %li Create an OAuth Twitter App
+    %li Make sure, that the ""

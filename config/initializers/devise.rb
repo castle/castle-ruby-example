@@ -13,4 +13,9 @@ Devise.setup do |config|
   config.email_regexp = /\A[^@\s]+@[^@\s]+\z/
   config.reset_password_within = 6.hours
   config.sign_out_via = :delete
+  config.omniauth(
+    :twitter,
+    Rails.application.secrets.twitter_app_id,
+    Rails.application.secrets.twitter_secret
+  )
 end

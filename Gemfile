@@ -15,6 +15,7 @@ gem 'hamlit'
 gem 'responders'
 gem 'simple_form'
 gem 'devise'
+gem 'omniauth-twitter'
 
 group :development, :test do
   gem 'byebug'

@@ -7,6 +7,7 @@ Rails.application.routes.draw do
     passwords
     registrations
     unlocks
+    omniauth_callbacks
   ].each do |action|
     devise_controllers[action] = "users/#{action}"
   end
