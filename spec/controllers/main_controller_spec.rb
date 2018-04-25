@@ -2,21 +2,21 @@
 
 RSpec.describe MainController do
   describe 'GET #index' do
-    subject { get :index }
+    subject(:main_page) { get :index }
 
-    context 'for unauthenticated request' do
+    context 'when unauthenticated user fetches the main page' do
       it 'renders the index template' do
         expect(response).to have_http_status(:ok)
-        expect(subject).to render_template(:index)
+        expect(main_page).to render_template(:index)
       end
     end
 
-    context 'for authenticated user' do
+    context 'when authenticated user fetches the main page' do
       with_user
 
       it 'renders the index template' do
         expect(response).to have_http_status(:ok)
-        expect(subject).to render_template(:index)
+        expect(main_page).to render_template(:index)
       end
     end
   end

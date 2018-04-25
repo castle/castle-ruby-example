@@ -2,25 +2,25 @@
 
 RSpec.describe Users::ProfilesController do
   describe 'GET #edit' do
-    subject { get :edit }
+    subject(:edit_page) { get :edit }
 
-    context 'for unauthenticated request' do
+    context 'when unauthenticated user wants to edit his profile' do
       it 'redirects to a sign in path' do
-        expect(subject).to redirect_to new_user_session_path
+        expect(edit_page).to redirect_to new_user_session_path
       end
     end
 
-    context 'for authenticated user' do
+    context 'when authenticated user wants to edit his profile' do
       with_user
 
       it 'renders the edit template' do
         expect(response).to have_http_status(:ok)
-        expect(subject).to render_template(:edit)
+        expect(edit_page).to render_template(:edit)
       end
 
       it 'does not trigger castle tracking for page view' do
-        expect_any_instance_of(Castle::Client).not_to receive(:track)
-        subject
+        expect(controller.castle).not_to receive(:track)
+        edit_page
       end
     end
   end
