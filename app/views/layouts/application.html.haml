@@ -10,16 +10,27 @@
       %ul.navbar-nav.px-3
         - if user_signed_in?
           %li.nav-item
-            = link_to t('.nav.edit_password'), edit_user_registration_path, class: 'nav-link'
+            = link_to t('.nav.edit_password'),
+                      edit_user_registration_path,
+                      class: 'nav-link'
           %li.nav-item
-            = link_to t('.nav.edit_profile'), edit_users_profile_path, class: 'nav-link'
+            = link_to t('.nav.edit_profile'),
+                      edit_users_profile_path,
+                      class: 'nav-link'
           %li.nav-item
-            = link_to t('.nav.sign_out'), destroy_user_session_path, method: :delete, class: 'nav-link'
+            = link_to t('.nav.sign_out'),
+                      destroy_user_session_path,
+                      method: :delete,
+                      class: 'nav-link'
         - else
           %li.nav-item
-            = link_to t('.nav.login'), new_user_session_path, class: 'nav-link'
+            = link_to t('.nav.login'),
+                      new_user_session_path,
+                      class: 'nav-link'
           %li.nav-item
-            = link_to t('.nav.register'), new_user_registration_path, class: 'nav-link'
+            = link_to t('.nav.register'),
+                      new_user_registration_path,
+                      class: 'nav-link'
 
     .container-fluid
       .row
