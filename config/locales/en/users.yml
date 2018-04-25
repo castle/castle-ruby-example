@@ -7,6 +7,8 @@ en:
       new:
         title: Log in
         button: Log in
+      create:
+        access_denied: Access denied. Please contact the administrator.
     registrations:
       new:
         button: Sign up
@@ -18,6 +20,11 @@ en:
         current_password_hint: "we need your current password to confirm your changes"
         button: Update
         cancel: Cancel my account
+        back: Back
+    profiles:
+      edit:
+        title: Profile editing
+        button: Update profile
         back: Back
     shared:
       links:

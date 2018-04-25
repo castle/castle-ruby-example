@@ -3,16 +3,18 @@ Rails.application.routes.draw do
 
   %i[
     sessions
-    confirmations
     passwords
     registrations
-    unlocks
     omniauth_callbacks
   ].each do |action|
     devise_controllers[action] = "users/#{action}"
   end
 
   devise_for :users, controllers: devise_controllers
+
+  namespace :users do
+    resource :profile, only: %i[edit update]
+  end
 
   root to: 'main#index'
 end

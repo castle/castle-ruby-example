@@ -16,6 +16,7 @@ gem 'responders'
 gem 'simple_form'
 gem 'devise'
 gem 'omniauth-twitter'
+gem 'castle-rb'
 
 group :development, :test do
   gem 'byebug'

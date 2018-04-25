@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'application_responder'
+require 'castle/support/rails'
 
 class ApplicationController < ActionController::Base
   self.responder = ApplicationResponder

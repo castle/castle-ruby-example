@@ -2,7 +2,8 @@ en:
   layouts:
     application:
       nav:
-        edit: Edit my account
+        edit_password: Edit password
+        edit_profile: Edit profile
         sign_out: Sign out
         login: Login
         register: Register
