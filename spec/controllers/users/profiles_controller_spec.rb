@@ -24,4 +24,8 @@ RSpec.describe Users::ProfilesController do
       end
     end
   end
+
+  describe 'POST #update' do
+    pending
+  end
 end
