@@ -8,8 +8,6 @@ gem 'bootstrap', '~> 4.0.0.alpha6'
 gem 'castle-rb'
 gem 'devise'
 gem 'hamlit'
-gem 'jbuilder'
-gem 'jquery-rails'
 gem 'omniauth-twitter'
 gem 'puma'
 gem 'rails'
@@ -17,18 +15,11 @@ gem 'responders'
 gem 'sass-rails'
 gem 'simple_form'
 gem 'sqlite3'
-gem 'turbolinks'
 gem 'uglifier'
 
 group :development, :test do
   gem 'byebug'
-end
-
-group :development do
-  gem 'better_errors'
-end
-
-group :development, :test do
   gem 'faker'
+  gem 'rails-controller-testing'
   gem 'rspec-rails'
 end
