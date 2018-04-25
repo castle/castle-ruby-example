@@ -4,7 +4,8 @@
   = f.error_notification
   .form-inputs
     = f.input :email, required: true, autofocus: true
-    = f.input :password, required: true, hint: (t('.hint', min: @minimum_password_length) if @minimum_password_length)
+    - hint = (t('.hint', min: @minimum_password_length) if @minimum_password_length)
+    = f.input :password, required: true, hint: hint
     = f.input :password_confirmation, required: true
   .form-actions
     = f.button :submit, t('.button'), class: 'btn btn-lg btn-primary btn-block'

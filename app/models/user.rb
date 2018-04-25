@@ -2,7 +2,7 @@
 
 class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable,
+         :rememberable, :trackable, :validatable,
          :omniauthable, omniauth_providers: %i[twitter]
 
   def self.find_or_create_for_oauth(auth)
@@ -10,7 +10,7 @@ class User < ApplicationRecord
       provider: auth.provider,
       uid: auth.uid
     ).tap do |user|
-      user.password = Devise.friendly_token[0,20]
+      user.password = Devise.friendly_token[0, 20]
       user.email = auth.info.email
       user.save
     end

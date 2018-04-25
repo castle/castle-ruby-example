@@ -3,6 +3,7 @@
 require 'application_responder'
 require 'castle/support/rails'
 
+# Main application controller
 class ApplicationController < ActionController::Base
   self.responder = ApplicationResponder
   respond_to :html

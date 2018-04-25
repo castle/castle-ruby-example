@@ -3,7 +3,7 @@
 SimpleForm.setup do |config|
   config.button_class = 'btn'
   config.boolean_label_class = 'form-check-label'
-  config.label_text = lambda { |label, required, explicit_label| "#{label} #{required}" }
+  config.label_text = ->(label, required, _) { "#{label} #{required}" }
   config.boolean_style = :inline
   config.item_wrapper_tag = :div
   config.include_default_input_wrapper_class = false
@@ -18,7 +18,7 @@ SimpleForm.setup do |config|
     class: 'form-group',
     error_class: 'form-group-invalid',
     valid_class: 'form-group-valid'
-  )do |b|
+  ) do |b|
     b.use :html5
     b.use :placeholder
     b.optional :maxlength
@@ -56,7 +56,7 @@ SimpleForm.setup do |config|
     class: 'form-group',
     error_class: 'form-group-invalid',
     valid_class: 'form-group-valid'
-  )do |b|
+  ) do |b|
     b.use :html5
     b.optional :readonly
     b.wrapper :legend_tag, tag: 'legend', class: 'col-form-label pt-0' do |ba|
@@ -67,7 +67,14 @@ SimpleForm.setup do |config|
     b.use :hint, wrap_with: { tag: 'small', class: 'form-text text-muted' }
   end
 
-  config.wrappers :vertical_collection_inline, item_wrapper_class: 'form-check form-check-inline', tag: 'fieldset', class: 'form-group', error_class: 'form-group-invalid', valid_class: 'form-group-valid' do |b|
+  config.wrappers(
+    :vertical_collection_inline,
+    item_wrapper_class: 'form-check form-check-inline',
+    tag: 'fieldset',
+    class: 'form-group',
+    error_class: 'form-group-invalid',
+    valid_class: 'form-group-valid'
+  ) do |b|
     b.use :html5
     b.optional :readonly
     b.wrapper :legend_tag, tag: 'legend', class: 'col-form-label pt-0' do |ba|
@@ -78,7 +85,13 @@ SimpleForm.setup do |config|
     b.use :hint, wrap_with: { tag: 'small', class: 'form-text text-muted' }
   end
 
-  config.wrappers :vertical_file, tag: 'div', class: 'form-group', error_class: 'form-group-invalid', valid_class: 'form-group-valid' do |b|
+  config.wrappers(
+    :vertical_file,
+    tag: 'div',
+    class: 'form-group',
+    error_class: 'form-group-invalid',
+    valid_class: 'form-group-valid'
+  ) do |b|
     b.use :html5
     b.use :placeholder
     b.optional :maxlength
@@ -90,7 +103,13 @@ SimpleForm.setup do |config|
     b.use :hint, wrap_with: { tag: 'small', class: 'form-text text-muted' }
   end
 
-  config.wrappers :vertical_multi_select, tag: 'div', class: 'form-group', error_class: 'form-group-invalid', valid_class: 'form-group-valid' do |b|
+  config.wrappers(
+    :vertical_multi_select,
+    tag: 'div',
+    class: 'form-group',
+    error_class: 'form-group-invalid',
+    valid_class: 'form-group-valid'
+  ) do |b|
     b.use :html5
     b.optional :readonly
     b.use :label, class: 'form-control-label'
@@ -101,7 +120,13 @@ SimpleForm.setup do |config|
     b.use :hint, wrap_with: { tag: 'small', class: 'form-text text-muted' }
   end
 
-  config.wrappers :vertical_range, tag: 'div', class: 'form-group', error_class: 'form-group-invalid', valid_class: 'form-group-valid' do |b|
+  config.wrappers(
+    :vertical_range,
+    tag: 'div',
+    class: 'form-group',
+    error_class: 'form-group-invalid',
+    valid_class: 'form-group-valid'
+  ) do |b|
     b.use :html5
     b.use :placeholder
     b.optional :readonly
@@ -112,7 +137,13 @@ SimpleForm.setup do |config|
     b.use :hint, wrap_with: { tag: 'small', class: 'form-text text-muted' }
   end
 
-  config.wrappers :horizontal_form, tag: 'div', class: 'form-group row', error_class: 'form-group-invalid', valid_class: 'form-group-valid' do |b|
+  config.wrappers(
+    :horizontal_form,
+    tag: 'div',
+    class: 'form-group row',
+    error_class: 'form-group-invalid',
+    valid_class: 'form-group-valid'
+  ) do |b|
     b.use :html5
     b.use :placeholder
     b.optional :maxlength
@@ -128,7 +159,13 @@ SimpleForm.setup do |config|
     end
   end
 
-  config.wrappers :horizontal_boolean, tag: 'div', class: 'form-group row', error_class: 'form-group-invalid', valid_class: 'form-group-valid' do |b|
+  config.wrappers(
+    :horizontal_boolean,
+    tag: 'div',
+    class: 'form-group row',
+    error_class: 'form-group-invalid',
+    valid_class: 'form-group-valid'
+  ) do |b|
     b.use :html5
     b.optional :readonly
     b.wrapper tag: 'label', class: 'col-sm-3' do |ba|
@@ -144,7 +181,14 @@ SimpleForm.setup do |config|
     end
   end
 
-  config.wrappers :horizontal_collection, item_wrapper_class: 'form-check', tag: 'div', class: 'form-group row', error_class: 'form-group-invalid', valid_class: 'form-group-valid' do |b|
+  config.wrappers(
+    :horizontal_collection,
+    item_wrapper_class: 'form-check',
+    tag: 'div',
+    class: 'form-group row',
+    error_class: 'form-group-invalid',
+    valid_class: 'form-group-valid'
+  ) do |b|
     b.use :html5
     b.optional :readonly
     b.use :label, class: 'col-sm-3 form-control-label'
@@ -208,7 +252,6 @@ SimpleForm.setup do |config|
     end
   end
 
-
   # inline forms
   #
   # inline default_wrapper
@@ -236,7 +279,6 @@ SimpleForm.setup do |config|
     b.use :error, wrap_with: { tag: 'div', class: 'invalid-feedback' }
     b.optional :hint, wrap_with: { tag: 'small', class: 'form-text text-muted' }
   end
-
 
   # bootstrap custom forms
   #
@@ -353,7 +395,6 @@ SimpleForm.setup do |config|
     b.use :full_error, wrap_with: { tag: 'div', class: 'invalid-feedback' }
     b.use :hint, wrap_with: { tag: 'small', class: 'form-text text-muted' }
   end
-
 
   # The default wrapper to be used by the FormBuilder.
   config.default_wrapper = :vertical_form
