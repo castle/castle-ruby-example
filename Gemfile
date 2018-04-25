@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
 ruby '2.5.1'
@@ -12,9 +14,9 @@ gem 'omniauth-twitter'
 gem 'puma'
 gem 'rails'
 gem 'responders'
+gem 'sass-rails'
 gem 'simple_form'
 gem 'sqlite3'
-gem 'sass-rails'
 gem 'turbolinks'
 gem 'uglifier'
 

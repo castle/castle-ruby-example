@@ -1,4 +1,4 @@
-@import "bootstrap";
+@import 'bootstrap';
 
 img {
   @extend .img-fluid;
@@ -31,7 +31,7 @@ img {
 
 main {
   @extend .container;
-  margin-top: 30px; // accommodate the navbar
+  margin-top: 30px;
 }
 
 section {

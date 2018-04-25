@@ -116,7 +116,7 @@ SimpleForm.setup do |config|
     b.wrapper(
       tag: 'div',
       class: 'd-flex flex-row justify-content-between align-items-center'
-    )do |ba|
+    ) do |ba|
       ba.use :input, class: 'form-control mx-1', error_class: 'is-invalid', valid_class: 'is-valid'
     end
     b.use :full_error, wrap_with: { tag: 'div', class: 'invalid-feedback d-block' }
@@ -202,7 +202,14 @@ SimpleForm.setup do |config|
     end
   end
 
-  config.wrappers :horizontal_collection_inline, item_wrapper_class: 'form-check form-check-inline', tag: 'div', class: 'form-group row', error_class: 'form-group-invalid', valid_class: 'form-group-valid' do |b|
+  config.wrappers(
+    :horizontal_collection_inline,
+    item_wrapper_class: 'form-check form-check-inline',
+    tag: 'div',
+    class: 'form-group row',
+    error_class: 'form-group-invalid',
+    valid_class: 'form-group-valid'
+  ) do |b|
     b.use :html5
     b.optional :readonly
     b.use :label, class: 'col-sm-3 form-control-label'
@@ -213,7 +220,13 @@ SimpleForm.setup do |config|
     end
   end
 
-  config.wrappers :horizontal_file, tag: 'div', class: 'form-group row', error_class: 'form-group-invalid', valid_class: 'form-group-valid' do |b|
+  config.wrappers(
+    :horizontal_file,
+    tag: 'div',
+    class: 'form-group row',
+    error_class: 'form-group-invalid',
+    valid_class: 'form-group-valid'
+  ) do |b|
     b.use :html5
     b.use :placeholder
     b.optional :maxlength
@@ -228,7 +241,13 @@ SimpleForm.setup do |config|
   end
 
   # horizontal multi select
-  config.wrappers :horizontal_multi_select, tag: 'div', class: 'form-group row', error_class: 'form-group-invalid', valid_class: 'form-group-valid' do |b|
+  config.wrappers(
+    :horizontal_multi_select,
+    tag: 'div',
+    class: 'form-group row',
+    error_class: 'form-group-invalid',
+    valid_class: 'form-group-valid'
+  ) do |b|
     b.use :html5
     b.optional :readonly
     b.use :label, class: 'col-sm-3 control-label'
@@ -241,8 +260,13 @@ SimpleForm.setup do |config|
     end
   end
 
-  # horizontal range input
-  config.wrappers :horizontal_range, tag: 'div', class: 'form-group row', error_class: 'form-group-invalid', valid_class: 'form-group-valid' do |b|
+  config.wrappers(
+    :horizontal_range,
+    tag: 'div',
+    class: 'form-group row',
+    error_class: 'form-group-invalid',
+    valid_class: 'form-group-valid'
+  ) do |b|
     b.use :html5
     b.use :placeholder
     b.optional :readonly
@@ -255,9 +279,6 @@ SimpleForm.setup do |config|
     end
   end
 
-  # inline forms
-  #
-  # inline default_wrapper
   config.wrappers :inline_form, tag: 'span', error_class: 'form-group-invalid', valid_class: 'form-group-valid' do |b|
     b.use :html5
     b.use :placeholder
