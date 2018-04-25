@@ -30,6 +30,8 @@ RSpec.describe Users::SessionsController do
     # and how it redirects
     context 'when login failed' do
       before do
+        # Since the expectations are handled after the redirect for invalid, we don't have a way
+        # to reference the "future" castle object, so we have to stub all the instances
         allow_any_instance_of(controller.castle.class).to receive(:track)
         post :create, params: { user: { email: user.email, password: rand.to_s } }
       end
