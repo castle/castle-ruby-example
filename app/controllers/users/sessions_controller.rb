@@ -5,6 +5,7 @@ module Users
   class SessionsController < Devise::SessionsController
     layout 'devise'
 
+    # Key that is used in Devise for user authentication
     AUTHENTICATION_KEY = 'email'
 
     # Due to the fact, that Devise uses internally warden for authentication
@@ -12,6 +13,8 @@ module Users
     # everything session - castle related in one place
     after_action :track_failed_login, only: :new, if: :failed_login?
 
+    # Sign in with Castle tracking.
+    # @note For now we allow user when verdict is not deny. Challenge could be implemented
     def create
       warden.authenticate!(auth_options)
 
@@ -33,6 +36,7 @@ module Users
       end
     end
 
+    # Sign out with Castle tracking
     def destroy
       # This is a failover just in case there is no user because an unauthenticated user
       # tried to logout

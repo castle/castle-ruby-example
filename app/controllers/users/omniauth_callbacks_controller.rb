@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# Namespace for all the things related to working with users
 module Users
   # OmniAuth authentication for Devise with Castle.io tracking
   class OmniauthCallbacksController < Devise::OmniauthCallbacksController
