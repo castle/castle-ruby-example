@@ -35,6 +35,8 @@ module Users
 
     private
 
+    # Signs in user with a nice flash message (if applicable)
+    # @param current_user [User] user that we want to sign in
     def sign_in_with_notice(current_user)
       sign_in_and_redirect current_user, event: :authentication
       set_flash_message(:notice, :success, kind: 'Twitter') if is_navigational_format?
