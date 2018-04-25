@@ -53,7 +53,7 @@ module Users
 
     # @return [Boolean] true if this was a failed login attempt
     def failed_login?
-      (options = request.env['warden.options']) && options[:action] == 'unauthenticated'
+      (options = request.env['warden.options']) && options[:action].to_s == 'unauthenticated'
     end
 
     # Authenticates user in Castle

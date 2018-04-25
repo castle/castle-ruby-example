@@ -26,8 +26,15 @@ RSpec.describe Users::SessionsController do
     let(:password) { rand.to_s }
     let(:user) { create(:user, password: password, password_confirmation: password) }
 
+    # @note We cannot directly check the castle invocation because of the way warde works
+    # and how it redirects
     context 'when login failed' do
-      pending
+      before do
+        allow_any_instance_of(controller.castle.class).to receive(:track)
+        post :create, params: { user: { email: user.email, password: rand.to_s } }
+      end
+
+      it { expect(response).to render_template 'new' }
     end
 
     context 'when login succeeded' do
