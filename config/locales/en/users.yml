@@ -3,6 +3,7 @@ en:
     omniauth_callbacks:
       twitter:
         error: We were unable to sign you in with Twitter right now.
+        access_denied: Access denied. Please contact the administrator.
     sessions:
       new:
         title: Log in
