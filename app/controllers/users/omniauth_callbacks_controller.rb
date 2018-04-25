@@ -11,13 +11,7 @@ module Users
       current_user = User.find_or_create_for_oauth request.env['omniauth.auth']
 
       if current_user.persisted?
-        verdict = castle.authenticate(
-          event: '$login.succeeded',
-          user_id: current_user.id,
-          user_traits: current_user.attributes
-        ).freeze
-
-        case verdict[:action]
+        case authenticate(current_user)[:action]
         when 'allow'
           sign_in_with_notice(current_user)
         when 'challenge'
@@ -41,6 +35,17 @@ module Users
     def sign_in_with_notice(current_user)
       sign_in_and_redirect current_user, event: :authentication
       set_flash_message(:notice, :success, kind: 'Twitter') if is_navigational_format?
+    end
+
+    # Authenticates user in Castle
+    # @param current_user [User]
+    # @return [Hash] verdict details
+    def authenticate(current_user)
+      castle.authenticate(
+        event: '$login.succeeded',
+        user_id: current_user.id,
+        user_traits: current_user.attributes
+      ).freeze
     end
   end
 end
