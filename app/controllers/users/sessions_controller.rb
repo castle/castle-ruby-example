@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module Users
+  # Sessions Devise management with integrated Castle.io Ruby library
   class SessionsController < Devise::SessionsController
     layout 'devise'
 

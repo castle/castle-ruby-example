@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 module Users
+  # Profile management with Castle integration
   class ProfilesController < ApplicationController
     layout 'devise'
 
