@@ -18,13 +18,7 @@ module Users
     def create
       warden.authenticate!(auth_options)
 
-      verdict = castle.authenticate(
-        event: '$login.succeeded',
-        user_id: current_user.id,
-        user_traits: current_user.attributes
-      ).freeze
-
-      case verdict[:action]
+      case authenticate_with_castle(current_user)[:action]
       when 'allow'
         super
       when 'challenge'
@@ -60,6 +54,17 @@ module Users
     # @return [Boolean] true if this was a failed login attempt
     def failed_login?
       (options = request.env['warden.options']) && options[:action] == 'unauthenticated'
+    end
+
+    # Authenticates user in Castle
+    # @param current_user [User]
+    # @return [Hash] verdict details
+    def authenticate_with_castle(current_user)
+      castle.authenticate(
+        event: '$login.succeeded',
+        user_id: current_user.id,
+        user_traits: current_user.attributes
+      ).freeze
     end
   end
 end

@@ -11,7 +11,7 @@ module Users
       current_user = User.find_or_create_for_oauth request.env['omniauth.auth']
 
       if current_user.persisted?
-        case authenticate(current_user)[:action]
+        case authenticate_with_castle(current_user)[:action]
         when 'allow'
           sign_in_with_notice(current_user)
         when 'challenge'
@@ -40,7 +40,7 @@ module Users
     # Authenticates user in Castle
     # @param current_user [User]
     # @return [Hash] verdict details
-    def authenticate(current_user)
+    def authenticate_with_castle(current_user)
       castle.authenticate(
         event: '$login.succeeded',
         user_id: current_user.id,
