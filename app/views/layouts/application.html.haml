@@ -1,0 +1,42 @@
+!!!
+%html
+  = render 'layouts/header'
+
+  %body
+    %nav.navbar.navbar-expand-lg.navbar-dark.fixed-top.bg-dark.flex-md-nowrap.p-0
+      %a.navbar-brand.col-sm-4.col-md-3.col-lg-2.mr-0#logo{ href: root_path }
+        = image_tag('logo.png')
+
+      %ul.navbar-nav.px-3
+        - if user_signed_in?
+          %li.nav-item
+            = link_to t('.nav.edit_password'),
+                      edit_user_registration_path,
+                      class: 'nav-link'
+          %li.nav-item
+            = link_to t('.nav.edit_profile'),
+                      edit_users_profile_path,
+                      class: 'nav-link'
+          %li.nav-item
+            = link_to t('.nav.sign_out'),
+                      destroy_user_session_path,
+                      method: :delete,
+                      class: 'nav-link'
+        - else
+          %li.nav-item
+            = link_to t('.nav.login'),
+                      new_user_session_path,
+                      class: 'nav-link'
+          %li.nav-item
+            = link_to t('.nav.register'),
+                      new_user_registration_path,
+                      class: 'nav-link'
+
+    .container-fluid
+      .row
+        %main.col-md-9.ml-sm-auto.col-lg-10.px-4{ role: 'main' }
+          = render 'layouts/messages'
+
+          = yield
+
+    = render 'layouts/castle_js'

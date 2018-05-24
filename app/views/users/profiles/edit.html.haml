@@ -1,0 +1,11 @@
+%h2= t('.title')
+
+= simple_form_for(current_user, url: users_profile_path, html: { method: :put }) do |f|
+  = f.error_notification
+  .form-inputs
+    = f.input :email, required: true, autofocus: true
+  .form-actions
+    = f.button :submit, t('.button'), class: 'btn btn-lg btn-primary btn-block'
+
+%p.mb-4.mt-4
+  = link_to t('.back'), root_path, class: 'btn btn-secondary'

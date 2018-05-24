@@ -1,0 +1,13 @@
+!!!
+%html
+  = render 'layouts/header'
+
+  %body.signin
+    .form-signin
+      %p.text-center
+        %a{ href: root_path }
+          = image_tag 'logo_plain.png', alt: '', width: 72, class: 'mb-4'
+
+      = render 'layouts/messages'
+
+      = yield
