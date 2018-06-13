@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'simplecov'
+require 'integrations/castle_webhook_verifier'
 
 SimpleCov.minimum_coverage 50
 
