@@ -24,7 +24,7 @@ RSpec.describe Integrations::CastleWebhookVerifier do
       {
         'api_version': 'v1',
         'app_id': '12345678901234',
-        'type': '$review.opened',
+        'type': '$review.opened'
       }.to_json
     end
 

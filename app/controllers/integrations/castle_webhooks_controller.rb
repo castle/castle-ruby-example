@@ -20,6 +20,7 @@ module Integrations
 
     private
 
+    # @return [String] raw request body
     def request_body
       @request_body ||= begin
         # We don't know the state of the IO for body, so we rewind it just in case
@@ -27,9 +28,14 @@ module Integrations
         request.body.rewind
         body = request.body.read
         request.body.rewind
+        body
       end
     end
 
+    # Verifies that the incoming request comes from Castle
+    # @note We trigger ActionController::RoutingError to notify any invalid request sender that
+    #   an endpoint like that does not exist
+    # @raise [ActionController::RoutingError] routing error if it was not castle request
     def verify_request
       return if CastleWebhookVerifier.valid?(
         request_body,
