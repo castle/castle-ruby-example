@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'integrations/castle_webhook_verifier'
-
 # Module including things related to integrations with other services
 # @note This does not apply to oauth as oauth is in the user scope to indicate its
 #   relationship with the user
@@ -9,6 +7,8 @@ module Integrations
   # Controller for receiving Castle incoming webhooks
   class CastleWebhooksController < ApplicationController
     skip_before_action :authenticate_user!
+    skip_before_action :verify_authenticity_token
+
     before_action :verify_request
 
     # Stores locally webhook details
@@ -37,14 +37,14 @@ module Integrations
     #   an endpoint like that does not exist
     # @raise [ActionController::RoutingError] routing error if it was not castle request
     def verify_request
-      return if CastleWebhookVerifier.valid?(
+      return if Integrations::CastleWebhookVerifier.valid?(
         request_body,
         # We have to cast to string, in case it is nil. If signature is nil, it means
         # that something is not right and the verifier expects string
         headers['X-Castle-Signature'].to_s
       )
 
-      raise ActionController::RoutingError
+      raise ActionController::RoutingError.new('Not found')
     end
   end
 end

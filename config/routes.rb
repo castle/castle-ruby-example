@@ -18,5 +18,9 @@ Rails.application.routes.draw do
     resource :profile, only: %i[edit update]
   end
 
+  namespace :integrations do
+    resources :castle_webhooks, only: %i[create]
+  end
+
   root to: 'main#index'
 end
