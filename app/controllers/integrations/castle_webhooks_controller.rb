@@ -41,7 +41,7 @@ module Integrations
         request_body,
         # We have to cast to string, in case it is nil. If signature is nil, it means
         # that something is not right and the verifier expects string
-        headers['X-Castle-Signature'].to_s
+        request.headers['X-Castle-Signature'].to_s
       )
 
       raise ActionController::RoutingError.new('Not found')
