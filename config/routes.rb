@@ -19,7 +19,7 @@ Rails.application.routes.draw do
   end
 
   namespace :integrations do
-    resources :castle_webhooks, only: %i[create]
+    resources :castle_webhooks, only: %i[index create]
   end
 
   root to: 'main#index'

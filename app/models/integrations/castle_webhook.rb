@@ -6,5 +6,7 @@ module Integrations
     self.table_name = :integrations_castle_webhooks
 
     serialize :body
+
+    scope :recent, -> { order(created_at: :desc).limit(50) }
   end
 end

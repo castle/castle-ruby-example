@@ -9,9 +9,16 @@ module Integrations
     skip_before_action :authenticate_user!
     skip_before_action :verify_authenticity_token
 
-    before_action :verify_request
+    before_action :verify_request, only: %i[create]
 
-    # Stores locally webhook details
+    # Shows last 50 webhooks payload details
+    # @note This should not be in the production, but for this app it is presented for
+    # you to learn and play with it
+    def index
+      @castle_webhooks = Integrations::CastleWebhook.recent
+    end
+
+    # Stores locally webhook details that were sent by Castle
     def create
       # We don't use #params here because Rails adds some extra details that aren't from Castle
       # during the #params building process
@@ -41,7 +48,7 @@ module Integrations
         request_body,
         # We have to cast to string, in case it is nil. If signature is nil, it means
         # that something is not right and the verifier expects string
-        headers['X-Castle-Signature'].to_s
+        request.headers['X-Castle-Signature'].to_s
       )
 
       raise ActionController::RoutingError.new('Not found')
