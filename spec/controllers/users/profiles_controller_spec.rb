@@ -16,8 +16,8 @@ RSpec.describe Users::ProfilesController do
       before { allow(controller.castle).to receive(:track) }
 
       it 'renders the edit template' do
-        expect(response).to have_http_status(:ok)
         expect(edit_page).to render_template(:edit)
+        expect(response).to have_http_status(:ok)
       end
 
       it 'does not trigger castle tracking for page view' do
@@ -54,8 +54,8 @@ RSpec.describe Users::ProfilesController do
         before { allow(controller.castle).to receive(:track) }
 
         it 'renders the edit template' do
-          expect(response).to have_http_status(:ok)
           expect(update_page).to render_template(:edit)
+          expect(response).to have_http_status(:ok)
         end
 
         it 'expect to trigger castle tracking for failed profile update' do
