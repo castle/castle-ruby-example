@@ -51,7 +51,7 @@ module Integrations
         request.headers['X-Castle-Signature'].to_s
       )
 
-      raise ActionController::RoutingError.new('Not found')
+      raise ActionController::RoutingError, 'Not found'
     end
   end
 end
