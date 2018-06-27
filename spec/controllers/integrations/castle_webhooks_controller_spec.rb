@@ -38,7 +38,6 @@ RSpec.describe Integrations::CastleWebhooksController do
           'app_id': '12345678901234',
           'type': '$review.opened'
         }.to_json
-
       end
 
       before do
