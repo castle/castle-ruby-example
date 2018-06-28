@@ -33,9 +33,7 @@ RSpec.describe Users::ProfilesController do
     let(:params) { {} }
 
     context 'when unauthenticated user wants to update his profile' do
-      it 'redirects to a sign in path' do
-        expect(update_page).to redirect_to new_user_session_path
-      end
+      it { expect(update_page).to redirect_to new_user_session_path }
     end
 
     context 'when authenticated user wants to update his profile' do
@@ -51,17 +49,14 @@ RSpec.describe Users::ProfilesController do
           }
         end
 
-        before { allow(controller.castle).to receive(:track) }
-
-        it 'renders the edit template' do
-          expect(update_page).to render_template(:edit)
-          expect(response).to have_http_status(:ok)
-        end
-
-        it 'expect to trigger castle tracking for failed profile update' do
+        before do
+          allow(controller.castle).to receive(:track)
           update_page
-          expect(controller.castle).to have_received(:track).with(track_expected_data)
         end
+
+        it { expect(update_page).to render_template(:edit) }
+        it { expect(response).to have_http_status(:ok) }
+        it { expect(controller.castle).to have_received(:track).with(track_expected_data) }
       end
 
       context 'with valid data' do

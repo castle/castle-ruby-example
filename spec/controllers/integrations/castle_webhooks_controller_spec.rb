@@ -19,12 +19,10 @@ RSpec.describe Integrations::CastleWebhooksController do
     before { request.headers.merge! headers }
 
     context 'when request was not sent by the Castle backend' do
-      it 'expect to raise routing error if it is not request from Castle backend' do
-        expect { create_request }.to raise_error(ActionController::RoutingError)
-      end
+      it { expect { create_request }.to raise_error(ActionController::RoutingError) }
     end
 
-    context 'when requet was send by the Castle backend' do
+    context 'when request was send by the Castle backend' do
       let(:castle_secret) { 'V9Q86iQBWi4xAbleSMrk4+cYhoUMIiiHvIwMl9jh9uo=' }
       let(:headers) do
         {
@@ -46,13 +44,14 @@ RSpec.describe Integrations::CastleWebhooksController do
           .and_return(castle_secret)
       end
 
-      it 'expect to render nothing with an ok status' do
-        create_request
-        expect(response).to have_http_status(:no_content)
-      end
-
       it 'expect to create a webhook in the local db' do
         expect { create_request }.to change(Integrations::CastleWebhook, :count).by(1)
+      end
+
+      context 'when request has happened' do
+        before { create_request }
+
+        it { expect(response).to have_http_status(:no_content) }
       end
     end
   end
