@@ -8,6 +8,11 @@
         = image_tag('logo.png')
 
       %ul.navbar-nav.px-3
+        %li.nav-item.mr-5
+          = link_to t('.nav.webhooks'),
+                    integrations_castle_webhooks_path,
+                    class: 'nav-link'
+
         - if user_signed_in?
           %li.nav-item
             = link_to t('.nav.edit_password'),

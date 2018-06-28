@@ -15,3 +15,5 @@ module CastleExample
     config.load_defaults 5.2
   end
 end
+
+require 'integrations/castle_webhook_verifier'

@@ -9,17 +9,9 @@ RSpec.describe Users::SessionsController do
       get :new
     end
 
-    it 'expects to return an OK (200) status code' do
-      expect(response.status).to eq 200
-    end
-
-    it 'expects to render with new template' do
-      expect(response).to render_template 'new'
-    end
-
-    it 'expects not to track anything' do
-      expect(controller.castle).not_to have_received(:authenticate)
-    end
+    it { expect(response.status).to eq 200 }
+    it { expect(response).to render_template 'new' }
+    it { expect(controller.castle).not_to have_received(:authenticate) }
   end
 
   describe 'POST create' do
@@ -56,44 +48,24 @@ RSpec.describe Users::SessionsController do
       context 'when user allowed' do
         let(:verdict) { { action: 'allow' } }
 
-        it 'expect to sign in and redirect to root' do
-          expect(response).to redirect_to root_path
-        end
-
-        it 'expect to run castle authentication' do
-          expect(controller.castle)
-            .to have_received(:authenticate)
-            .with(castle_auth_args)
-        end
+        it { expect(response).to redirect_to root_path }
+        it { expect(controller.castle).to have_received(:authenticate).with(castle_auth_args) }
       end
 
       context 'when user challenged' do
         let(:verdict) { { action: 'challenge' } }
 
-        it 'expect to sign in and redirect to root' do
-          expect(response).to redirect_to root_path
-        end
-
-        it 'expect to run castle authentication' do
-          expect(controller.castle)
-            .to have_received(:authenticate)
-            .with(castle_auth_args)
-        end
+        it { expect(response).to redirect_to root_path }
+        it { expect(controller.castle).to have_received(:authenticate).with(castle_auth_args) }
       end
 
       context 'when user denied' do
         let(:verdict) { { action: 'deny' } }
+        let(:error_message) { I18n.t('users.omniauth_callbacks.twitter.access_denied') }
 
-        it 'expect to redirect to sign in path with a proper message' do
-          expect(response).to redirect_to new_user_session_path
-          expect(flash['error']).to eq I18n.t('users.omniauth_callbacks.twitter.access_denied')
-        end
-
-        it 'expect to run castle authentication' do
-          expect(controller.castle)
-            .to have_received(:authenticate)
-            .with(castle_auth_args)
-        end
+        it { expect(response).to redirect_to new_user_session_path }
+        it { expect(flash['error']).to eq error_message }
+        it { expect(controller.castle).to have_received(:authenticate).with(castle_auth_args) }
       end
     end
   end
@@ -101,20 +73,15 @@ RSpec.describe Users::SessionsController do
   describe 'DELETE destroy' do
     with_user
 
+    let(:castle_track_args) { { event: '$logout.succeeded', user_id: user.id } }
+
     before do
       allow(controller.castle).to receive(:track)
       delete :destroy
     end
 
-    it 'expects to redirect to root path with a proper message' do
-      expect(flash[:notice]).to eq I18n.t('devise.sessions.signed_out')
-      expect(response).to redirect_to root_path
-    end
-
-    it 'expects to track with castle api' do
-      expect(controller.castle)
-        .to have_received(:track)
-        .with(event: '$logout.succeeded', user_id: user.id)
-    end
+    it { expect(flash[:notice]).to eq I18n.t('devise.sessions.signed_out') }
+    it { expect(response).to redirect_to root_path }
+    it { expect(controller.castle).to have_received(:track).with(castle_track_args) }
   end
 end

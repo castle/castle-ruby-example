@@ -7,3 +7,4 @@ en:
         sign_out: Sign out
         login: Login
         register: Register
+        webhooks: Received webhooks
