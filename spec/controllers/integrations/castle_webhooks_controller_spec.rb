@@ -2,12 +2,10 @@
 
 RSpec.describe Integrations::CastleWebhooksController do
   describe 'GET #index' do
-    subject(:index_page) { get :index }
+    before { get :index }
 
-    it 'renders the index template' do
-      expect(index_page).to render_template(:index)
-      expect(response).to have_http_status(:ok)
-    end
+    it { expect(response).to render_template(:index) }
+    it { expect(response).to have_http_status(:ok) }
   end
 
   describe 'POST #create' do

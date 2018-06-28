@@ -2,38 +2,33 @@
 
 RSpec.describe Users::ProfilesController do
   describe 'GET #edit' do
-    subject(:edit_page) { get :edit }
-
     context 'when unauthenticated user wants to edit his profile' do
-      it 'redirects to a sign in path' do
-        expect(edit_page).to redirect_to new_user_session_path
-      end
+      before { get :edit }
+
+      it { expect(response).to redirect_to new_user_session_path }
     end
 
     context 'when authenticated user wants to edit his profile' do
       with_user
 
-      before { allow(controller.castle).to receive(:track) }
-
-      it 'renders the edit template' do
-        expect(edit_page).to render_template(:edit)
-        expect(response).to have_http_status(:ok)
+      before do
+        allow(controller.castle).to receive(:track)
+        get :edit
       end
 
-      it 'does not trigger castle tracking for page view' do
-        edit_page
-        expect(controller.castle).not_to have_received(:track)
-      end
+      it { expect(response).to render_template(:edit) }
+      it { expect(response).to have_http_status(:ok) }
+      it { expect(controller.castle).not_to have_received(:track) }
     end
   end
 
   describe 'POST #update' do
-    subject(:update_page) { put :update, params: params }
-
     let(:params) { {} }
 
     context 'when unauthenticated user wants to update his profile' do
-      it { expect(update_page).to redirect_to new_user_session_path }
+      before { put :update, params: params }
+
+      it { expect(response).to redirect_to new_user_session_path }
     end
 
     context 'when authenticated user wants to update his profile' do
@@ -51,10 +46,10 @@ RSpec.describe Users::ProfilesController do
 
         before do
           allow(controller.castle).to receive(:track)
-          update_page
+          put :update, params: params
         end
 
-        it { expect(update_page).to render_template(:edit) }
+        it { expect(response).to render_template(:edit) }
         it { expect(response).to have_http_status(:ok) }
         it { expect(controller.castle).to have_received(:track).with(track_expected_data) }
       end
@@ -69,17 +64,13 @@ RSpec.describe Users::ProfilesController do
           }
         end
 
-        before { allow(controller.castle).to receive(:track) }
-
-        it 'renders the edit template' do
-          expect(response).to have_http_status(:ok)
-          expect(update_page).to redirect_to root_path
+        before do
+          allow(controller.castle).to receive(:track)
+          put :update, params: params
         end
 
-        it 'expect to trigger castle tracking for succeeded profile update' do
-          update_page
-          expect(controller.castle).to have_received(:track).with(track_expected_data)
-        end
+        it { expect(response).to redirect_to root_path }
+        it { expect(controller.castle).to have_received(:track).with(track_expected_data) }
       end
     end
   end
