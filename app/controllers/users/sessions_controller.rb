@@ -23,9 +23,7 @@ module Users
           redirect_to new_user_session_url
         end
       else
-        user_details = request.filtered_parameters.fetch('user') { {} }
-        user = User.find_by(AUTHENTICATION_KEY => user_details[AUTHENTICATION_KEY])
-        castle.track(event: '$login.failed', user_id: user&.id, user_traits: user_details)
+        track_failed_login
         throw(:warden)
       end
     end
@@ -40,6 +38,14 @@ module Users
     end
 
     private
+
+    # Takes the request form data (login and password) and tries to find the user for which the
+    # authentication process failed and tracks a failed login
+    def track_failed_login
+      user_params = params.fetch('user') { {} }.except(*Rails.application.config.filter_parameters)
+      user = User.find_by(AUTHENTICATION_KEY => user_params[AUTHENTICATION_KEY])
+      castle.track(event: '$login.failed', user_id: user&.id, user_traits: user_params)
+    end
 
     # Authenticates user in Castle
     # @param current_user [User]
