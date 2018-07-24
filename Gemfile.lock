@@ -43,7 +43,7 @@ GEM
       minitest (~> 5.1)
       tzinfo (~> 1.1)
     arel (9.0.0)
-    autoprefixer-rails (8.6.4)
+    autoprefixer-rails (9.0.0)
       execjs
     bcrypt (3.1.12)
     bootstrap (4.0.0)
@@ -70,7 +70,7 @@ GEM
     factory_bot_rails (4.10.0)
       factory_bot (~> 4.10.0)
       railties (>= 3.0.0)
-    faker (1.8.7)
+    faker (1.9.1)
       i18n (>= 0.7)
     ffi (1.9.25)
     globalid (0.4.1)
@@ -100,7 +100,7 @@ GEM
     mini_portile2 (2.3.0)
     minitest (5.11.3)
     nio4r (2.3.1)
-    nokogiri (1.8.3)
+    nokogiri (1.8.4)
       mini_portile2 (~> 2.3.0)
     oauth (0.5.4)
     omniauth (1.8.1)
@@ -114,9 +114,9 @@ GEM
       rack
     orm_adapter (0.5.0)
     popper_js (1.12.9)
-    puma (3.11.4)
+    puma (3.12.0)
     rack (2.0.5)
-    rack-test (1.0.0)
+    rack-test (1.1.0)
       rack (>= 1.0, < 3)
     rails (5.2.0)
       actioncable (= 5.2.0)
@@ -172,7 +172,7 @@ GEM
       rspec-mocks (~> 3.7.0)
       rspec-support (~> 3.7.0)
     rspec-support (3.7.1)
-    sass (3.5.6)
+    sass (3.5.7)
       sass-listen (~> 4.0.0)
     sass-listen (4.0.0)
       rb-fsevent (~> 0.9, >= 0.9.4)
@@ -205,7 +205,7 @@ GEM
     tilt (2.0.8)
     tzinfo (1.2.5)
       thread_safe (~> 0.1)
-    uglifier (4.1.12)
+    uglifier (4.1.16)
       execjs (>= 0.3.0, < 3)
     warden (1.2.7)
       rack (>= 1.0)
@@ -242,4 +242,4 @@ RUBY VERSION
    ruby 2.5.1p57
 
 BUNDLED WITH
-   1.16.2
+   1.16.3
