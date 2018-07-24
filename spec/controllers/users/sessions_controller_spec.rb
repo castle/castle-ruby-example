@@ -28,7 +28,7 @@ RSpec.describe Users::SessionsController do
         post :create, params: { user: { email: user.email, password: rand.to_s } }
       end
 
-      it { expect(response).to render_template 'new' }
+      it { expect(response).to redirect_to new_user_session_path }
     end
 
     context 'when login succeeded' do
