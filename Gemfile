@@ -4,7 +4,7 @@ source 'https://rubygems.org'
 
 ruby '2.6.1'
 
-gem 'bootstrap', '~> 4.0.0.alpha6'
+gem 'bootstrap'
 gem 'castle-rb'
 gem 'devise'
 gem 'hamlit'
