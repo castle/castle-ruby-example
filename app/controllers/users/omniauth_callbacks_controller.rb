@@ -11,16 +11,7 @@ module Users
       current_user = User.find_or_create_for_oauth request.env['omniauth.auth']
 
       if current_user.persisted?
-        case authenticate_with_castle(current_user)[:action]
-        when 'allow'
-          sign_in_with_notice(current_user)
-        when 'challenge'
-          sign_in_with_notice(current_user)
-        when 'deny'
-          warden.logout
-          flash[:error] = t('.access_denied')
-          redirect_to new_user_session_url
-        end
+        authenticate(current_user)
       else
         flash[:error] = t('.error')
         redirect_to new_user_registration_url
@@ -29,6 +20,21 @@ module Users
     end
 
     private
+
+    # Checks if user can be authenticated and if so user will be signed in.
+    # @param current_user [User] user that we want to authenticate
+    def authenticate(current_user)
+      case authenticate_with_castle(current_user)[:action]
+      when 'allow'
+        sign_in_with_notice(current_user)
+      when 'challenge'
+        sign_in_with_notice(current_user)
+      when 'deny'
+        warden.logout
+        flash[:error] = t('.access_denied')
+        redirect_to new_user_session_url
+      end
+    end
 
     # Signs in user with a nice flash message (if applicable)
     # @param current_user [User] user that we want to sign in
