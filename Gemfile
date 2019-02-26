@@ -16,7 +16,7 @@ gem 'rails-ujs'
 gem 'responders'
 gem 'sass-rails'
 gem 'simple_form'
-gem 'sqlite3'
+gem 'sqlite3', '~> 1.3.13'
 gem 'uglifier'
 
 group :development, :test do
