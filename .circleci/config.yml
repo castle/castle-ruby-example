@@ -27,6 +27,7 @@ version: 2
     - run: bundle config github.https true
     # Setup the environment
     - run: cp config/database.yml.example config/database.yml
+    - run: cp config/secrets.yml.example config/secrets.yml
     - run: |
         bundle exec rake db:migrate
         bundle exec rspec
