@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-ruby '2.5.1'
+ruby '2.6.1'
 
 gem 'bootstrap', '~> 4.0.0.alpha6'
 gem 'castle-rb'
@@ -18,6 +18,7 @@ gem 'sass-rails'
 gem 'simple_form'
 gem 'sqlite3'
 gem 'uglifier'
+
 group :development, :test do
   gem 'byebug'
   gem 'factory_bot_rails'
