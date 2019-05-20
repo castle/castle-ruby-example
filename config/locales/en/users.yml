@@ -1,0 +1,37 @@
+en:
+  users:
+    omniauth_callbacks:
+      twitter:
+        error: We were unable to sign you in with Twitter right now.
+        access_denied: Access denied. Please contact the administrator.
+    sessions:
+      new:
+        title: Log in
+        button: Log in
+      create:
+        access_denied: Access denied. Please contact the administrator.
+    registrations:
+      new:
+        button: Sign up
+        hint: "%{min} characters minimum"
+      edit:
+        title: Editing account
+        confirmation_pending: 'Currently waiting confirmation for: %#{email}'
+        password_hint: "leave it blank if you don't want to change it"
+        current_password_hint: "we need your current password to confirm your changes"
+        button: Update
+        cancel: Cancel my account
+        back: Back
+    profiles:
+      edit:
+        title: Profile editing
+        button: Update profile
+        back: Back
+    shared:
+      links:
+        log_in: Log in
+        sign_up: Sign up
+        forgot_password: 'Forgot your password?'
+        didnt_receive_conf: "Didn't receive confirmation instructions?"
+        didnt_receive_unlock: "Didn't receive unlock instructions?"
+        sign_in_with: 'Sign in with %{name}'

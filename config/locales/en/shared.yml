@@ -1,0 +1,5 @@
+en:
+  shared:
+    title: 'Castle Example Rails App'
+    description: 'Example Rails App with Devise and Castle.io integration'
+    confirm: 'Are you sure?'
