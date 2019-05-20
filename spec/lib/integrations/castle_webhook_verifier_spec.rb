@@ -29,7 +29,7 @@ RSpec.describe Integrations::CastleWebhookVerifier do
     end
 
     # We need to stub the castle secret for this particular case, because we cannot rely on
-    # a user one for hardcoded signature example as the valid signature was precalculated
+    # a user one for hard-coded signature example as the valid signature was pre-calculated
     before do
       allow(Rails.application.secrets)
         .to receive(:castle_secret)

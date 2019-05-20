@@ -1,4 +1,5 @@
 /.bundle
+/.coditsu/local.yml
 /vendor/bundle/
 /vendor/ruby/
 /ruby/
