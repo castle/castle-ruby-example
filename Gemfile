@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-ruby '2.6.1'
+ruby '2.7.2'
 
 gem 'bootstrap'
 gem 'castle-rb'
@@ -16,8 +16,7 @@ gem 'rails-ujs'
 gem 'responders'
 gem 'sass-rails'
 gem 'simple_form'
-# sqlite3 is hardcoded to version 1.3.13 as 1.4 won't work with Rails version 5.2.2.
-gem 'sqlite3', '~> 1.3.13'
+gem 'sqlite3'
 gem 'uglifier'
 
 group :development, :test do
