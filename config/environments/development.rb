@@ -25,5 +25,5 @@ Rails.application.configure do
   config.assets.debug = true
   config.assets.quiet = true
   config.file_watcher = ActiveSupport::FileUpdateChecker
-  config.action_view.raise_on_missing_translations = true
+  config.i18n.raise_on_missing_translations = true
 end

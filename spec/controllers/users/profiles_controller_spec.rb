@@ -12,13 +12,13 @@ RSpec.describe Users::ProfilesController do
       with_user
 
       before do
-        allow(controller.castle).to receive(:track)
+        allow(controller.castle).to receive(:log)
         get :edit
       end
 
       it { expect(response).to render_template(:edit) }
       it { expect(response).to have_http_status(:ok) }
-      it { expect(controller.castle).not_to have_received(:track) }
+      it { expect(controller.castle).not_to have_received(:log) }
     end
   end
 
@@ -36,41 +36,54 @@ RSpec.describe Users::ProfilesController do
 
       context 'with invalid data' do
         let(:params) { { user: { email: '' } } }
-        let(:track_expected_data) do
+        let(:log_expected_data) do
           {
-            event: '$profile_update.failed',
-            user_id: controller.current_user.id,
-            user_traits: controller.current_user.attributes
+            type: '$profile_update',
+            status: '$failed',
+            user: { id: controller.current_user.id, email: controller.current_user.email }
           }
         end
 
         before do
-          allow(controller.castle).to receive(:track)
+          allow(controller.castle).to receive(:log)
           put :update, params: params
         end
 
         it { expect(response).to render_template(:edit) }
         it { expect(response).to have_http_status(:ok) }
-        it { expect(controller.castle).to have_received(:track).with(track_expected_data) }
+        it { expect(controller.castle).to have_received(:log).with(log_expected_data) }
       end
 
       context 'with valid data' do
         let(:params) { { user: { email: Faker::Internet.email } } }
-        let(:track_expected_data) do
+        let(:log_expected_data) do
           {
-            event: '$profile_update.succeeded',
-            user_id: controller.current_user.id,
-            user_traits: controller.current_user.attributes
+            type: '$profile_update',
+            status: '$succeeded',
+            user: { id: controller.current_user.id, email: controller.current_user.email }
           }
         end
 
         before do
-          allow(controller.castle).to receive(:track)
+          allow(controller.castle).to receive(:log)
           put :update, params: params
         end
 
         it { expect(response).to redirect_to root_path }
-        it { expect(controller.castle).to have_received(:track).with(track_expected_data) }
+        it { expect(controller.castle).to have_received(:log).with(log_expected_data) }
+      end
+
+      context 'when Castle raises while logging' do
+        let(:params) { { user: { email: Faker::Internet.email } } }
+
+        before do
+          allow(controller.castle).to receive(:log).and_raise(Castle::Error)
+          put :update, params: params
+        end
+
+        it 'still completes the update without surfacing the error' do
+          expect(response).to redirect_to root_path
+        end
       end
     end
   end

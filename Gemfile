@@ -2,22 +2,23 @@
 
 source 'https://rubygems.org'
 
-ruby '2.7.2'
+ruby file: '.ruby-version'
 
-gem 'bootstrap'
-gem 'castle-rb'
-gem 'devise'
-gem 'hamlit'
-gem 'jquery-rails'
+gem 'bootsnap', require: false
+gem 'bootstrap', '~> 5.3'
+gem 'castle-rb', '~> 8.1'
+gem 'devise', '~> 5.0'
+gem 'dotenv-rails'
+gem 'hamlit-rails'
+gem 'omniauth-rails_csrf_protection'
 gem 'omniauth-twitter'
-gem 'puma'
-gem 'rails'
-gem 'rails-ujs'
+gem 'puma', '~> 6.4'
+gem 'rails', '~> 8.1.3'
 gem 'responders'
-gem 'sass-rails'
+gem 'sassc-rails'
 gem 'simple_form'
-gem 'sqlite3'
-gem 'uglifier'
+gem 'sprockets-rails'
+gem 'sqlite3', '~> 2.1'
 
 group :development, :test do
   gem 'byebug'
@@ -25,5 +26,9 @@ group :development, :test do
   gem 'faker'
   gem 'rails-controller-testing'
   gem 'rspec-rails'
-  gem 'simplecov'
+  gem 'simplecov', require: false
+end
+
+group :development do
+  gem 'web-console'
 end

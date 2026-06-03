@@ -1,29 +1,51 @@
-.jumbotron
-  %h1.display-4 Castle Rails example app
+.p-5.mb-4.bg-body-tertiary.rounded-3
+  .container-fluid.py-3
+    %h1.display-5.fw-bold Castle Rails example app
+    %p.col-md-10.fs-5
+      A minimal Ruby on Rails + Devise application showing how to wire the
+      = succeed '' do
+        %a{ href: 'https://github.com/castle/castle-ruby' } castle-rb
+      SDK into a real authentication flow.
 
 .d-flex.justify-content-between.flex-wrap.align-items-center.pt-3.pb-2.mb-3.border-bottom
-  %h2.h2 About Castle.io Example App
+  %h2.h3 What's demonstrated
 
-%p.lead
-  This app was made to illustrate how Castle.io can be integrated within a Ruby on Rails
-  application. It includes:
-
-  %ul
-    %li
-      User model with Devise authentication
-    %li
-      Profile update
-    %li
-      Password change
-    %li
-      Twitter OAuth signup
+%ul
+  %li
+    %strong Login
+    &mdash; successful logins are scored with the
+    %code risk
+    endpoint; failed logins go to
+    %code filter
+    and the verdict can allow, challenge or deny the user.
+  %li
+    %strong Logout & profile updates
+    &mdash; recorded with the non-blocking
+    %code log
+    endpoint.
+  %li
+    %strong Twitter/X OAuth login
+    &mdash; the same risk assessment applied to social sign-in.
+  %li
+    %strong Webhooks
+    &mdash; incoming Castle webhooks are signature-verified and listed under
+    = link_to 'Webhooks', integrations_castle_webhooks_path
 
 .d-flex.justify-content-between.flex-wrap.align-items-center.pt-3.pb-2.mb-3.border-bottom
-  %h2.h2 Details
+  %h2.h3 Configuration
 
 %p
-  In order to make Twitter OAuth work you need to:
-
-  %ul
-    %li Create an OAuth Twitter App
-    %li Make sure, that you configure <strong>config/secrets.yml</strong> properly.
+  Copy
+  %code.env.example
+  to
+  %code.env
+  and fill in your Castle credentials
+  (<code>CASTLE_API_SECRET</code> and <code>CASTLE_PK</code>) from the
+  = succeed '.' do
+    %a{ href: 'https://dashboard.castle.io' } Castle dashboard
+%p
+  Twitter/X OAuth is optional: set
+  %code TWITTER_APP_ID
+  and
+  %code TWITTER_SECRET
+  to enable the social login button.

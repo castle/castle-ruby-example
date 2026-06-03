@@ -15,7 +15,7 @@ module Users
       else
         flash[:error] = t('.error')
         redirect_to new_user_registration_url
-        castle.track(event: '$login.failed', user_id: current_user&.id)
+        report_failed_login(current_user)
       end
     end
 
@@ -24,15 +24,12 @@ module Users
     # Checks if user can be authenticated and if so user will be signed in.
     # @param current_user [User] user that we want to authenticate
     def authenticate(current_user)
-      case authenticate_with_castle(current_user)[:action]
-      when 'allow'
-        sign_in_with_notice(current_user)
-      when 'challenge'
-        sign_in_with_notice(current_user)
-      when 'deny'
+      if evaluate_login(current_user) == 'deny'
         warden.logout
         flash[:error] = t('.access_denied')
         redirect_to new_user_session_url
+      else
+        sign_in_with_notice(current_user)
       end
     end
 
@@ -43,15 +40,31 @@ module Users
       set_flash_message(:notice, :success, kind: 'Twitter') if is_navigational_format?
     end
 
-    # Authenticates user in Castle
-    # @param current_user [User]
-    # @return [Hash] verdict details
-    def authenticate_with_castle(current_user)
-      castle.authenticate(
-        event: '$login.succeeded',
-        user_id: current_user.id,
-        user_traits: current_user.attributes
-      ).freeze
+    # Sends a successful OAuth login to the risk endpoint and returns the verdict.
+    # @param user [User]
+    # @return [String] the Castle policy action: 'allow', 'challenge' or 'deny'
+    def evaluate_login(user)
+      castle.risk(
+        type: '$login',
+        status: '$succeeded',
+        request_token: castle_request_token,
+        user: { id: user.id, email: user.email }
+      ).dig(:policy, :action)
+    rescue Castle::Error
+      'allow'
+    end
+
+    # Reports a failed OAuth login to the filter endpoint.
+    # @param user [User]
+    def report_failed_login(user)
+      castle.filter(
+        type: '$login',
+        status: '$failed',
+        request_token: castle_request_token,
+        user: { id: user&.id }
+      )
+    rescue Castle::Error
+      nil
     end
   end
 end

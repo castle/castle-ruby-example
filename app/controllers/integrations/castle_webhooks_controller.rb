@@ -39,18 +39,16 @@ module Integrations
       end
     end
 
-    # Verifies that the incoming request comes from Castle
+    # Verifies that the incoming request comes from Castle by checking the
+    # X-Castle-Signature header against the raw body using the SDK helper.
     # @note We trigger ActionController::RoutingError to notify any invalid request sender that
     #   an endpoint like that does not exist
     # @raise [ActionController::RoutingError] routing error if it was not castle request
     def verify_request
-      return if Integrations::CastleWebhookVerifier.valid?(
-        request_body,
-        # We have to cast to string, in case it is nil. If signature is nil, it means
-        # that something is not right and the verifier expects string
-        request.headers['X-Castle-Signature'].to_s
-      )
+      raise ActionController::RoutingError, 'Not found' if request.headers['X-Castle-Signature'].blank?
 
+      Castle::Webhooks::Verify.call(request)
+    rescue Castle::Error
       raise ActionController::RoutingError, 'Not found'
     end
   end

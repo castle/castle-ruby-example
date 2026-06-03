@@ -20,16 +20,18 @@ module Users
       params.require(:user).permit(:email)
     end
 
-    # After action for tracking user profile update with details on whether
-    # it was a successful change or not
+    # After action that logs the profile update to Castle with the non-blocking
+    # log endpoint, noting whether the change was valid.
     def track_profile_update
-      event = current_user.valid? ? 'succeeded' : 'failed'
+      status = current_user.valid? ? '$succeeded' : '$failed'
 
-      castle.track(
-        event: "$profile_update.#{event}",
-        user_id: current_user.id,
-        user_traits: current_user.attributes
+      castle.log(
+        type: '$profile_update',
+        status: status,
+        user: { id: current_user.id, email: current_user.email }
       )
+    rescue Castle::Error
+      nil
     end
   end
 end
