@@ -1,16 +1,16 @@
-.p-5.mb-4.bg-body-tertiary.rounded-3
-  .container-fluid.py-3
-    %h1.display-5.fw-bold Castle Rails example app
-    %p.col-md-10.fs-5
-      A minimal Ruby on Rails + Devise application showing how to wire the
-      = succeed '' do
-        %a{ href: 'https://github.com/castle/castle-ruby' } castle-rb
-      SDK into a real authentication flow.
+.hero
+  %span.tag castle-rb 8.1 · rails
+  %h1{ class: 'text-[2rem] mt-3' } Castle Rails example app
+  %p.lead.mt-2
+    A minimal Ruby on Rails + Devise application showing how to wire the
+    = succeed '' do
+      %a{ href: 'https://github.com/castle/castle-ruby' } castle-rb
+    SDK into a real authentication flow.
 
-.d-flex.justify-content-between.flex-wrap.align-items-center.pt-3.pb-2.mb-3.border-bottom
-  %h2.h3 What's demonstrated
+.section-head
+  %h2{ class: 'text-[1.2rem]' } What's demonstrated
 
-%ul
+%ul.prose-list.list-disc.pl-5
   %li
     %strong Login
     &mdash; successful logins are scored with the
@@ -31,14 +31,14 @@
     &mdash; incoming Castle webhooks are signature-verified and listed under
     = link_to 'Webhooks', integrations_castle_webhooks_path
 
-.d-flex.justify-content-between.flex-wrap.align-items-center.pt-3.pb-2.mb-3.border-bottom
-  %h2.h3 Configuration
+.section-head
+  %h2{ class: 'text-[1.2rem]' } Configuration
 
 %p
   Copy
-  %code.env.example
+  %code .env.example
   to
-  %code.env
+  %code .env
   and fill in your Castle credentials
   (<code>CASTLE_API_SECRET</code> and <code>CASTLE_PK</code>) from the
   = succeed '.' do
