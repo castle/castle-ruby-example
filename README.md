@@ -1,7 +1,7 @@
 # Castle demo application: Ruby on Rails
 
 This project demonstrates how to integrate [Castle](https://castle.io) into a
-real Ruby on Rails application. It is built on Rails 7.1 with Devise for
+real Ruby on Rails application. It is built on Rails 8.1 with Devise for
 authentication and uses the [castle-rb](https://github.com/castle/castle-ruby)
 SDK (8.x).
 

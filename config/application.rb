@@ -12,7 +12,7 @@ Bundler.require(*Rails.groups)
 module CastleExample
   # Rails app
   class Application < Rails::Application
-    config.load_defaults 7.1
+    config.load_defaults 8.1
 
     # This example app doesn't ship encrypted credentials. Outside production we
     # read the secret from the environment (with a static fallback) so boot never
