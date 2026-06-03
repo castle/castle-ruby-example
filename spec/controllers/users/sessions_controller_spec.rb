@@ -96,7 +96,7 @@ RSpec.describe Users::SessionsController do
   describe 'DELETE destroy' do
     with_user
 
-    let(:log_args) { { type: '$logout', status: '$succeeded', user: { id: user.id } } }
+    let(:log_args) { { type: '$logout', status: '$succeeded', request_token: nil, user: { id: user.id } } }
 
     before do
       allow(controller.castle).to receive(:log)

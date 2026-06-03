@@ -14,7 +14,7 @@
         - if user_signed_in?
           = link_to t('.nav.edit_password'), edit_user_registration_path
           = link_to t('.nav.edit_profile'), edit_users_profile_path
-          = link_to t('.nav.sign_out'), destroy_user_session_path, method: :delete
+          = button_to t('.nav.sign_out'), destroy_user_session_path, method: :delete, form: { data: { castle: true } }
         - else
           = link_to t('.nav.login'), new_user_session_path
           = link_to t('.nav.register'), new_user_registration_path

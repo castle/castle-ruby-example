@@ -28,6 +28,7 @@ module Users
       castle.log(
         type: '$profile_update',
         status: status,
+        request_token: castle_request_token,
         user: { id: current_user.id, email: current_user.email }
       )
     rescue Castle::Error

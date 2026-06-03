@@ -40,6 +40,7 @@ RSpec.describe Users::ProfilesController do
           {
             type: '$profile_update',
             status: '$failed',
+            request_token: nil,
             user: { id: controller.current_user.id, email: controller.current_user.email }
           }
         end
@@ -60,6 +61,7 @@ RSpec.describe Users::ProfilesController do
           {
             type: '$profile_update',
             status: '$succeeded',
+            request_token: nil,
             user: { id: controller.current_user.id, email: controller.current_user.email }
           }
         end
