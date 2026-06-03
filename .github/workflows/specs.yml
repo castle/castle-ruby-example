@@ -1,0 +1,28 @@
+name: Specs
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  specs:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          # Reads the version from .ruby-version and installs the bundler
+          # pinned in Gemfile.lock (BUNDLED WITH).
+          bundler-cache: true
+
+      - name: Set up the test database
+        run: |
+          cp config/database.yml.example config/database.yml
+          bundle exec rails db:test:prepare
+
+      - name: Run the test suite
+        run: bundle exec rspec
