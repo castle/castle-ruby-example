@@ -31,6 +31,17 @@ RSpec.describe Users::SessionsController do
       it { expect(response).to redirect_to new_user_session_path }
     end
 
+    context 'when login failed and Castle raises an error' do
+      before do
+        allow_any_instance_of(controller.castle.class).to receive(:filter).and_raise(Castle::Error)
+        post :create, params: { user: { email: user.email, password: rand.to_s } }
+      end
+
+      it 'still redirects without surfacing the error' do
+        expect(response).to redirect_to new_user_session_path
+      end
+    end
+
     context 'when login succeeded' do
       let(:risk_args) do
         {
@@ -67,6 +78,17 @@ RSpec.describe Users::SessionsController do
         it { expect(response).to redirect_to new_user_session_path }
         it { expect(flash['error']).to eq error_message }
         it { expect(controller.castle).to have_received(:risk).with(risk_args) }
+      end
+    end
+
+    context 'when Castle raises during risk assessment' do
+      before do
+        allow(controller.castle).to receive(:risk).and_raise(Castle::Error)
+        post :create, params: { user: { email: user.email, password: password } }
+      end
+
+      it 'fails open and allows the login' do
+        expect(response).to redirect_to root_path
       end
     end
   end

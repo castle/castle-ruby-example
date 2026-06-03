@@ -6,7 +6,8 @@ FROM ruby:3.4.9-slim AS build
 ENV RAILS_ENV=production \
     BUNDLE_DEPLOYMENT=1 \
     BUNDLE_WITHOUT=development:test \
-    BUNDLE_PATH=/usr/local/bundle
+    BUNDLE_PATH=/usr/local/bundle \
+    BUNDLER_VERSION=2.7.2
 
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y build-essential git libsqlite3-dev libyaml-dev pkg-config && \
@@ -15,7 +16,8 @@ RUN apt-get update -qq && \
 WORKDIR /app
 
 COPY Gemfile Gemfile.lock .ruby-version ./
-RUN bundle install && \
+RUN gem install bundler -v "${BUNDLER_VERSION}" && \
+    bundle install && \
     rm -rf "${BUNDLE_PATH}"/ruby/*/cache
 
 COPY . .
@@ -36,13 +38,15 @@ ENV RAILS_ENV=production \
     BUNDLE_DEPLOYMENT=1 \
     BUNDLE_WITHOUT=development:test \
     BUNDLE_PATH=/usr/local/bundle \
+    BUNDLER_VERSION=2.7.2 \
     RAILS_SERVE_STATIC_FILES=1 \
     RAILS_LOG_TO_STDOUT=1 \
     PORT=3000
 
 RUN apt-get update -qq && \
     apt-get install --no-install-recommends -y libsqlite3-0 libyaml-0-2 && \
-    rm -rf /var/lib/apt/lists/*
+    rm -rf /var/lib/apt/lists/* && \
+    gem install bundler -v "${BUNDLER_VERSION}"
 
 # Run as an unprivileged user.
 RUN groupadd --system --gid 1000 rails && \

@@ -20,6 +20,16 @@ RSpec.describe Integrations::CastleWebhooksController do
       it { expect { create_request }.to raise_error(ActionController::RoutingError) }
     end
 
+    context 'when the signature is present but does not match' do
+      let(:headers) do
+        { 'X-Castle-Signature' => 'definitely-not-a-valid-signature', 'Content-Type' => 'application/json' }
+      end
+
+      before { allow(Castle.config).to receive(:api_secret).and_return('some-secret') }
+
+      it { expect { create_request }.to raise_error(ActionController::RoutingError) }
+    end
+
     context 'when request was send by the Castle backend' do
       let(:castle_secret) { 'V9Q86iQBWi4xAbleSMrk4+cYhoUMIiiHvIwMl9jh9uo=' }
       let(:headers) do

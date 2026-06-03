@@ -72,6 +72,19 @@ RSpec.describe Users::ProfilesController do
         it { expect(response).to redirect_to root_path }
         it { expect(controller.castle).to have_received(:log).with(log_expected_data) }
       end
+
+      context 'when Castle raises while logging' do
+        let(:params) { { user: { email: Faker::Internet.email } } }
+
+        before do
+          allow(controller.castle).to receive(:log).and_raise(Castle::Error)
+          put :update, params: params
+        end
+
+        it 'still completes the update without surfacing the error' do
+          expect(response).to redirect_to root_path
+        end
+      end
     end
   end
 end

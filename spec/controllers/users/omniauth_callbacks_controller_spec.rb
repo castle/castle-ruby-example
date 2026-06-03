@@ -51,6 +51,17 @@ RSpec.describe Users::OmniauthCallbacksController do
       end
     end
 
+    context 'when Castle raises during risk assessment' do
+      before do
+        allow(controller.castle).to receive(:risk).and_raise(Castle::Error)
+        get :twitter
+      end
+
+      it 'fails open and signs the user in' do
+        expect(response).to redirect_to root_path
+      end
+    end
+
     context 'when user is not valid and not persisted' do
       let(:user) { build(:user, id: user_id) }
       let(:filter_args) do
@@ -64,6 +75,19 @@ RSpec.describe Users::OmniauthCallbacksController do
 
       it { expect(response).to redirect_to new_user_registration_path }
       it { expect(controller.castle).to have_received(:filter).with(filter_args) }
+    end
+
+    context 'when user is not persisted and Castle raises' do
+      let(:user) { build(:user, id: user_id) }
+
+      before do
+        allow(controller.castle).to receive(:filter).and_raise(Castle::Error)
+        get :twitter
+      end
+
+      it 'still redirects without surfacing the error' do
+        expect(response).to redirect_to new_user_registration_path
+      end
     end
   end
 end
