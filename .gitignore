@@ -12,8 +12,15 @@ db/*.sqlite3
 .byebug_history
 .redcar/
 .sass-cache
+db/*.sqlite3-*
 /config/*.yml
+!/config/storage.yml
 /config/secrets.yml
+
+# Local environment variables (secrets). Keep .env.example tracked.
+/.env
+/.env.*
+!/.env.example
 /coverage.data
 /db/*.javadb/
 /db/*.sqlite3

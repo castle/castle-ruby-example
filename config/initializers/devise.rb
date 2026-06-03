@@ -15,7 +15,7 @@ Devise.setup do |config|
   config.sign_out_via = :delete
   config.omniauth(
     :twitter,
-    Rails.application.secrets.twitter_app_id,
-    Rails.application.secrets.twitter_secret
+    ENV.fetch('TWITTER_APP_ID', ''),
+    ENV.fetch('TWITTER_SECRET', '')
   )
 end

@@ -25,8 +25,9 @@ chdir APP_ROOT do
     cp 'config/database.yml.example', 'config/database.yml'
   end
 
-  unless File.exist?('config/secrets.yml')
-    cp 'config/secrets.yml.example', 'config/secrets.yml'
+  unless File.exist?('.env')
+    cp '.env.example', '.env'
+    puts '   Fill in your Castle credentials in .env (CASTLE_API_SECRET, CASTLE_PK).'
   end
 
   puts "\n== Preparing database =="

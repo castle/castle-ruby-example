@@ -5,7 +5,7 @@ module Integrations
   class CastleWebhook < ApplicationRecord
     self.table_name = :integrations_castle_webhooks
 
-    serialize :body
+    serialize :body, coder: JSON
 
     scope :recent, -> { order(created_at: :desc).limit(50) }
   end

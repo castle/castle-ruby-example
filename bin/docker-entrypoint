@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+set -e
+
+# Generate an ephemeral SECRET_KEY_BASE if one wasn't supplied. Good enough for
+# a throwaway demo container; set it explicitly to keep sessions across restarts.
+if [ -z "${SECRET_KEY_BASE}" ]; then
+  export SECRET_KEY_BASE="$(ruby -rsecurerandom -e 'print SecureRandom.hex(64)')"
+fi
+
+# Create and migrate the SQLite database on first boot.
+bundle exec rails db:prepare
+
+exec "$@"

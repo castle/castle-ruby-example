@@ -37,9 +37,7 @@ RSpec.describe Integrations::CastleWebhooksController do
       end
 
       before do
-        allow(Rails.application.secrets)
-          .to receive(:castle_secret)
-          .and_return(castle_secret)
+        allow(Castle.config).to receive(:api_secret).and_return(castle_secret)
       end
 
       it 'expect to create a webhook in the local db' do

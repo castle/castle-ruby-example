@@ -1,45 +1,35 @@
-version: 2
-
-.steps_definition: &steps_definition
-  steps:
-    - restore_cache:
-        keys:
-          - v{{ .Environment.CIRCLE_CACHE_VERSION }}-git-{{ .Branch }}-{{ .Revision }}
-          - v{{ .Environment.CIRCLE_CACHE_VERSION }}-git-{{ .Branch }}-
-          - v{{ .Environment.CIRCLE_CACHE_VERSION }}-git-
-    - checkout
-    - save_cache:
-        key: v{{ .Environment.CIRCLE_CACHE_VERSION }}-git-{{ .Branch }}-{{ .Revision }}
-        paths:
-          - ".git"
-    - restore_cache:
-        keys:
-          - v{{ .Environment.CIRCLE_CACHE_VERSION }}-{{arch}}-gem-lock-{{ checksum "Gemfile.lock" }}
-          - v{{ .Environment.CIRCLE_CACHE_VERSION }}-{{arch}}-gem-lock-
-    - run: gem install bundler
-    - run: bundle config github.https true
-    - run: bundle check --path=vendor/bundle || bundle install --path vendor/bundle
-    - save_cache:
-        key: v{{ .Environment.CIRCLE_CACHE_VERSION }}-{{arch}}-gem-lock-{{ checksum "Gemfile.lock" }}
-        paths:
-          - vendor/bundle
-    - run: gem install bundler
-    - run: bundle config github.https true
-    # Setup the environment
-    - run: cp config/database.yml.example config/database.yml
-    - run: cp config/secrets.yml.example config/secrets.yml
-    - run: |
-        bundle exec rake db:migrate
-        bundle exec rspec
+version: 2.1
 
 jobs:
   specs:
     docker:
-      - image: circleci/ruby:2.7.2-node-browsers
-    <<: *steps_definition
+      - image: cimg/ruby:3.4.9
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-gems-{{ checksum "Gemfile.lock" }}
+            - v1-gems-
+      - run:
+          name: Install dependencies
+          command: |
+            gem install bundler --conservative
+            bundle config set --local path vendor/bundle
+            bundle check || bundle install --jobs=4 --retry=3
+      - save_cache:
+          key: v1-gems-{{ checksum "Gemfile.lock" }}
+          paths:
+            - vendor/bundle
+      - run:
+          name: Set up the test database
+          command: |
+            cp config/database.yml.example config/database.yml
+            bundle exec rails db:test:prepare
+      - run:
+          name: Run the test suite
+          command: bundle exec rspec
 
 workflows:
-  version: 2
   build:
     jobs:
       - specs
