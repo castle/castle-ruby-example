@@ -31,10 +31,12 @@ module Users
       # This is a failover just in case there is no user because an unauthenticated user
       # tried to logout
       user_id = current_user&.id
+      token = castle_request_token
       super
       castle.log(
         type: '$logout',
         status: '$succeeded',
+        request_token: token,
         user: { id: user_id }
       )
     end

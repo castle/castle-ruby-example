@@ -7,15 +7,20 @@ SDK (8.x).
 
 ## What's demonstrated
 
+- **sign up** – new registrations are scored with the `risk` endpoint
+  (`$registration`); a `deny` verdict rolls the sign-up back, mirroring login.
 - **login** – successful logins are scored with the `risk` endpoint; failed
   logins are sent to `filter`. The returned verdict (`allow`, `challenge` or
   `deny`) drives whether the session is allowed.
-- **logout & profile updates** – recorded with the non-blocking `log` endpoint.
+- **logout, profile updates & custom events** – recorded with the non-blocking
+  `log` endpoint. The custom event is available from the profile page, once
+  signed in.
 - **Twitter/X OAuth login** – the same risk assessment applied to social sign-in.
 - **webhooks** – incoming Castle webhooks are signature-verified with
   `Castle::Webhooks::Verify` and listed in the app.
 - **browser SDK** – the `@castleio/castle-js` SDK mints a request token in the
-  browser that is submitted with the login form and forwarded to the API.
+  browser for every Castle-bound form (sign up, login, profile update, custom
+  event, logout) and forwards it to the backend.
 
 ## Screenshots
 

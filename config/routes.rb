@@ -16,6 +16,7 @@ Rails.application.routes.draw do
 
   namespace :users do
     resource :profile, only: %i[edit update]
+    resource :custom_event, only: %i[create]
   end
 
   namespace :integrations do

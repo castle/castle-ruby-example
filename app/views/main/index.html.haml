@@ -12,6 +12,11 @@
 
 %ul.prose-list.list-disc.pl-5
   %li
+    %strong Sign up
+    &mdash; new registrations are scored with the
+    %code risk
+    endpoint (<code>$registration</code>); a denied verdict rolls the sign-up back.
+  %li
     %strong Login
     &mdash; successful logins are scored with the
     %code risk
@@ -19,7 +24,7 @@
     %code filter
     and the verdict can allow, challenge or deny the user.
   %li
-    %strong Logout & profile updates
+    %strong Logout, profile updates & custom events
     &mdash; recorded with the non-blocking
     %code log
     endpoint.

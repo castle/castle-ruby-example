@@ -14,6 +14,8 @@ en:
       new:
         button: Sign up
         hint: "%{min} characters minimum"
+      create:
+        access_denied: Access denied. Please contact the administrator.
       edit:
         title: Editing account
         confirmation_pending: 'Currently waiting confirmation for: %#{email}'
@@ -26,7 +28,11 @@ en:
       edit:
         title: Profile editing
         button: Update profile
+        custom_event: Send a custom event
         back: Back
+    custom_events:
+      create:
+        sent: Custom event sent to Castle.
     shared:
       links:
         log_in: Log in
