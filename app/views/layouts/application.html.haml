@@ -3,34 +3,23 @@
   = render 'layouts/header'
 
   %body
-    %nav.navbar.navbar-expand-lg.fixed-top.bg-dark.shadow-sm{ 'data-bs-theme' => 'dark' }
-      .container-fluid
-        = link_to image_tag('logo.png', height: 28, alt: 'Castle'), root_path, class: 'navbar-brand', id: 'logo'
+    %nav.navbar
+      = link_to root_path, class: 'brand', id: 'logo' do
+        %span.brand-dot
+        Castle
+        %span.text-muted{ style: 'font-weight:400' } demo
+      .nav-links
+        = link_to t('.nav.webhooks'), integrations_castle_webhooks_path
 
-        %button.navbar-toggler{ type: 'button', 'data-bs-toggle' => 'collapse',
-          'data-bs-target' => '#navbar-nav', 'aria-controls' => 'navbar-nav',
-          'aria-expanded' => 'false', 'aria-label' => 'Toggle navigation' }
-          %span.navbar-toggler-icon
+        - if user_signed_in?
+          = link_to t('.nav.edit_password'), edit_user_registration_path
+          = link_to t('.nav.edit_profile'), edit_users_profile_path
+          = link_to t('.nav.sign_out'), destroy_user_session_path, method: :delete
+        - else
+          = link_to t('.nav.login'), new_user_session_path
+          = link_to t('.nav.register'), new_user_registration_path
 
-        #navbar-nav.collapse.navbar-collapse
-          %ul.navbar-nav.ms-auto
-            %li.nav-item
-              = link_to t('.nav.webhooks'), integrations_castle_webhooks_path, class: 'nav-link'
-
-            - if user_signed_in?
-              %li.nav-item
-                = link_to t('.nav.edit_password'), edit_user_registration_path, class: 'nav-link'
-              %li.nav-item
-                = link_to t('.nav.edit_profile'), edit_users_profile_path, class: 'nav-link'
-              %li.nav-item
-                = link_to t('.nav.sign_out'), destroy_user_session_path, method: :delete, class: 'nav-link'
-            - else
-              %li.nav-item
-                = link_to t('.nav.login'), new_user_session_path, class: 'nav-link'
-              %li.nav-item
-                = link_to t('.nav.register'), new_user_registration_path, class: 'nav-link'
-
-    %main.container{ role: 'main' }
+    %main.container-page{ role: 'main' }
       = render 'layouts/messages'
 
       = yield

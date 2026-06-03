@@ -1,13 +1,12 @@
-.d-flex.justify-content-between.flex-wrap.align-items-center.pt-3.pb-2.mb-3.border-bottom
-  %h2.h2 Received Castle webhooks
+.section-head
+  %h2{ class: 'text-[1.4rem]' } Received Castle webhooks
 
 %p.lead
   This page lists 50 most recent webhooks received from Castle.
 
-%p
-  %table.table
-    %tr
-      %th Webhook local ID
-      %th Webhook body
-      %th Created at
-    = render @castle_webhooks
+%table.table.mt-4
+  %tr
+    %th Webhook local ID
+    %th Webhook body
+    %th Created at
+  = render @castle_webhooks

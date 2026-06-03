@@ -55,6 +55,25 @@ bin/rails server
 `bin/setup` runs the dependency install, file copying and database setup in one
 step.
 
+## Styling (Tailwind CSS)
+
+The UI is styled with [Tailwind CSS](https://tailwindcss.com) via the
+[`tailwindcss-rails`](https://github.com/rails/tailwindcss-rails) gem (no Node
+toolchain required). The source is `app/assets/stylesheets/application.tailwind.css`
+with design tokens in `config/tailwind.config.js`; it compiles to
+`app/assets/builds/tailwind.css`, which is committed so `bin/rails server` works
+without a build step.
+
+If you change the views or the Tailwind source, regenerate the stylesheet:
+
+```bash
+bin/rails tailwindcss:build      # one-off build
+bin/rails tailwindcss:watch      # rebuild on change during development
+```
+
+`assets:precompile` (used by the Docker build) runs `tailwindcss:build`
+automatically.
+
 ## Configuration
 
 All configuration is read from environment variables (loaded from `.env` in
