@@ -17,6 +17,12 @@ SDK (8.x).
 - **browser SDK** – the `@castleio/castle-js` SDK mints a request token in the
   browser that is submitted with the login form and forwarded to the API.
 
+## Screenshots
+
+| Home | Login |
+| ---- | ----- |
+| ![Home](docs/screenshots/home.png) | ![Login](docs/screenshots/login.png) |
+
 ## Prerequisites
 
 You'll need a Castle account. If you don't have one, start a free trial at
