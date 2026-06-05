@@ -29,9 +29,6 @@
     %code log
     endpoint.
   %li
-    %strong Twitter/X OAuth login
-    &mdash; the same risk assessment applied to social sign-in.
-  %li
     %strong Webhooks
     &mdash; incoming Castle webhooks are signature-verified and listed under
     = link_to 'Webhooks', integrations_castle_webhooks_path
@@ -48,9 +45,3 @@
   (<code>CASTLE_API_SECRET</code> and <code>CASTLE_PK</code>) from the
   = succeed '.' do
     %a{ href: 'https://dashboard.castle.io' } Castle dashboard
-%p
-  Twitter/X OAuth is optional: set
-  %code TWITTER_APP_ID
-  and
-  %code TWITTER_SECRET
-  to enable the social login button.

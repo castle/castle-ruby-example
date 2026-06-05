@@ -1,9 +1,5 @@
 en:
   users:
-    omniauth_callbacks:
-      twitter:
-        error: We were unable to sign you in with Twitter right now.
-        access_denied: Access denied. Please contact the administrator.
     sessions:
       new:
         title: Log in
@@ -40,4 +36,3 @@ en:
         forgot_password: 'Forgot your password?'
         didnt_receive_conf: "Didn't receive confirmation instructions?"
         didnt_receive_unlock: "Didn't receive unlock instructions?"
-        sign_in_with: 'Sign in with %{name}'
