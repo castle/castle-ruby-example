@@ -15,7 +15,6 @@ SDK (8.x).
 - **logout, profile updates & custom events** – recorded with the non-blocking
   `log` endpoint. The custom event is available from the profile page, once
   signed in.
-- **Twitter/X OAuth login** – the same risk assessment applied to social sign-in.
 - **webhooks** – incoming Castle webhooks are signature-verified with
   `Castle::Webhooks::Verify` and listed in the app.
 - **browser SDK** – the `@castleio/castle-js` SDK mints a request token in the
@@ -31,16 +30,18 @@ SDK (8.x).
 ## Prerequisites
 
 You'll need a Castle account. If you don't have one, start a free trial at
-https://castle.io. From the dashboard (Settings → API) you'll need:
+https://castle.io. For local development, use a **sandbox** environment so demo
+traffic from `localhost` stays separate from production data — from the Castle
+dashboard (Settings → API) grab the sandbox keys:
 
-- your **publishable key** (`pk`) – used by the browser SDK
-- your **API secret** – used by the backend SDK
+- your **publishable key** (`CASTLE_PK`) – used by the browser SDK
+- your **API secret** (`CASTLE_API_SECRET`) – used by the backend SDK
+
+These are the only two values you need to configure.
 
 ## Running locally
 
 This app targets **Ruby 3.4** (see `.ruby-version`).
-
-Clone the repo and install dependencies:
 
 ```bash
 git clone https://github.com/castle/castle-ruby-example.git
@@ -66,38 +67,6 @@ bin/rails server
 `bin/setup` runs the dependency install, file copying and database setup in one
 step.
 
-## Styling (Tailwind CSS)
-
-The UI is styled with [Tailwind CSS](https://tailwindcss.com) via the
-[`tailwindcss-rails`](https://github.com/rails/tailwindcss-rails) gem (no Node
-toolchain required). The source is `app/assets/stylesheets/application.tailwind.css`
-with design tokens in `config/tailwind.config.js`; it compiles to
-`app/assets/builds/tailwind.css`, which is committed so `bin/rails server` works
-without a build step.
-
-If you change the views or the Tailwind source, regenerate the stylesheet:
-
-```bash
-bin/rails tailwindcss:build      # one-off build
-bin/rails tailwindcss:watch      # rebuild on change during development
-```
-
-`assets:precompile` (used by the Docker build) runs `tailwindcss:build`
-automatically.
-
-## Configuration
-
-All configuration is read from environment variables (loaded from `.env` in
-development and test via `dotenv-rails`):
-
-| Variable             | Purpose                                              |
-| -------------------- | ---------------------------------------------------- |
-| `CASTLE_API_SECRET`  | Server-side API secret used by the `castle-rb` SDK.  |
-| `CASTLE_PK`          | Publishable key used by the browser SDK.             |
-| `TWITTER_APP_ID`     | Optional – enables the Twitter/X OAuth login button. |
-| `TWITTER_SECRET`     | Optional – Twitter/X OAuth secret.                   |
-| `SECRET_KEY_BASE`    | Required in production only.                          |
-
 ## Running the tests
 
 ```bash
@@ -110,24 +79,18 @@ The bundled `Dockerfile` is a multi-stage build that compiles assets and runs
 the app with Puma as an unprivileged user on port 3000. The SQLite database is
 created on first boot.
 
-Build the image:
-
 ```bash
 docker build -t castle-demo-ruby .
-```
 
-Run a container, passing your Castle credentials:
-
-```bash
 docker run -d -p 4006:3000 \
   -e CASTLE_API_SECRET=YOUR_API_SECRET \
   -e CASTLE_PK=YOUR_PUBLISHABLE_KEY \
   castle-demo-ruby
 ```
 
-The app will be available at http://127.0.0.1:4006. A `SECRET_KEY_BASE` is
-generated automatically if you don't supply one (set it explicitly to keep
-sessions across restarts).
+The app will be available at http://127.0.0.1:4006. Point it at a Castle sandbox
+environment when running locally. A `SECRET_KEY_BASE` is generated automatically
+if you don't supply one (set it explicitly to keep sessions across restarts).
 
 ## Disclaimer
 

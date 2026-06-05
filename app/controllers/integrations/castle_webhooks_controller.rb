@@ -1,8 +1,6 @@
 # frozen_string_literal: true
 
 # Module including things related to integrations with other services
-# @note This does not apply to oauth as oauth is in the user scope to indicate its
-#   relationship with the user
 module Integrations
   # Controller for receiving Castle incoming webhooks
   class CastleWebhooksController < ApplicationController
