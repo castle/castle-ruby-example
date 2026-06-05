@@ -16,6 +16,9 @@ Rails.application.routes.draw do
   namespace :users do
     resource :profile, only: %i[edit update]
     resource :custom_event, only: %i[create]
+    resource :password_reset, only: %i[show create]
+    resource :lists, only: %i[show create]
+    resource :privacy, only: %i[show create], controller: 'privacy'
   end
 
   namespace :integrations do

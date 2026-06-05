@@ -1,5 +1,5 @@
 .hero
-  %span.tag castle-rb 8.1 · rails
+  %span.tag castle-rb 9.1 · rails
   %h1{ class: 'text-[2rem] mt-3' } Castle Rails example app
   %p.lead.mt-2
     A minimal Ruby on Rails + Devise application showing how to wire the
@@ -24,10 +24,14 @@
     %code filter
     and the verdict can allow, challenge or deny the user.
   %li
-    %strong Logout, profile updates & custom events
+    %strong Logout, profile updates, custom events & password reset
     &mdash; recorded with the non-blocking
     %code log
     endpoint.
+  %li
+    %strong Lists & Privacy APIs
+    &mdash; manage allow/block lists and honor GDPR/CCPA data requests
+    (available from the nav once signed in).
   %li
     %strong Webhooks
     &mdash; incoming Castle webhooks are signature-verified and listed under

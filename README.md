@@ -3,7 +3,7 @@
 This project demonstrates how to integrate [Castle](https://castle.io) into a
 real Ruby on Rails application. It is built on Rails 8.1 with Devise for
 authentication and uses the [castle-rb](https://github.com/castle/castle-ruby)
-SDK (8.x).
+SDK (9.x).
 
 ## What's demonstrated
 
@@ -12,9 +12,14 @@ SDK (8.x).
 - **login** – successful logins are scored with the `risk` endpoint; failed
   logins are sent to `filter`. The returned verdict (`allow`, `challenge` or
   `deny`) drives whether the session is allowed.
-- **logout, profile updates & custom events** – recorded with the non-blocking
-  `log` endpoint. The custom event is available from the profile page, once
-  signed in.
+- **logout, profile updates, custom events & password reset** – recorded with
+  the non-blocking `log` endpoint. The custom event is available from the
+  profile page, and Lists / Privacy / Password reset from the nav, once signed
+  in.
+- **Lists API** – create a list and fetch all lists with `create_list` /
+  `get_all_lists`.
+- **Privacy API** – honor GDPR/CCPA access and erasure requests with
+  `request_user_data` / `delete_user_data`.
 - **webhooks** – incoming Castle webhooks are signature-verified with
   `Castle::Webhooks::Verify` and listed in the app.
 - **browser SDK** – the `@castleio/castle-js` SDK mints a request token in the
