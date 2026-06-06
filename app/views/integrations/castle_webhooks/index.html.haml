@@ -1,0 +1,12 @@
+.section-head
+  %h2{ class: 'text-[1.4rem]' } Received Castle webhooks
+
+%p.lead
+  This page lists 50 most recent webhooks received from Castle.
+
+%table.table.mt-4
+  %tr
+    %th Webhook local ID
+    %th Webhook body
+    %th Created at
+  = render @castle_webhooks

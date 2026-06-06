@@ -1,0 +1,23 @@
+.section-head
+  %h2{ class: 'text-[1.4rem]' } Privacy API
+
+%p.lead
+  Honor GDPR/CCPA requests via
+  %code request_user_data
+  and
+  %code delete_user_data
+  \. A valid Castle API secret is required.
+
+.card.mt-4{ class: 'max-w-[640px]' }
+  = form_with url: users_privacy_path, method: :post do
+    .field
+      %label{ for: 'identifier' } identifier
+      = text_field_tag :identifier, params[:identifier].presence || current_user.email, class: 'input'
+    .field
+      %label{ for: 'identifier_type' } identifier type
+      = text_field_tag :identifier_type, params[:identifier_type].presence || '$email', class: 'input'
+    .btn-row
+      = button_tag 'Request user data', name: 'commit_action', value: 'request', class: 'btn btn-primary'
+      = button_tag 'Delete user data', name: 'commit_action', value: 'delete', class: 'btn'
+
+= render 'users/shared/api_result', error: @error, result: @result

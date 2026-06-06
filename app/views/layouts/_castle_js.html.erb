@@ -1,0 +1,10 @@
+<% if ENV["CASTLE_PK"].present? %>
+  <%# Castle browser SDK. Mints the request token that ties the browser to the %>
+  <%# server-side risk/filter calls. See app/assets/javascripts/castle.js. %>
+  <script src="https://cdn.jsdelivr.net/npm/@castleio/castle-js@2/dist/castle.browser.js"></script>
+  <script>
+    if (window.Castle) {
+      Castle.configure({ pk: "<%= j ENV['CASTLE_PK'] %>" });
+    }
+  </script>
+<% end %>

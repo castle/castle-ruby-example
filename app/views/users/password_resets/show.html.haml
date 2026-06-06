@@ -1,0 +1,36 @@
+.section-head
+  %h2{ class: 'text-[1.4rem]' } Password reset
+
+%p.lead
+  Records the password-reset event with the non-blocking
+  %code log
+  endpoint, which stores the event without returning a verdict.
+
+%p.text-muted{ class: 'text-[0.9rem]' }
+  Assume the user already passed your reset challenge (e.g. an emailed OTP).
+  Enter a value different from your current password to send
+  %code $password_reset / $succeeded
+  \, or your current password to send
+  %code $password_reset / $failed
+  \. (The password is not actually changed.)
+
+.card.mt-4{ class: 'max-w-[640px]' }
+  = form_with url: users_password_reset_path, method: :post, data: { castle: true } do
+    .field
+      %label email
+      = email_field_tag :email, current_user.email, class: 'input', disabled: true
+    .field
+      %label{ for: 'password' } new password
+      = password_field_tag :password, nil, class: 'input'
+    .btn-row
+      = submit_tag 'Submit', class: 'btn btn-primary'
+
+- if @error
+  .alert.alert-danger.mt-4= @error
+- elsif @logged
+  .alert.alert-success.mt-4
+    Logged
+    %code= "$password_reset / #{@status}"
+    via the
+    %code log
+    endpoint.

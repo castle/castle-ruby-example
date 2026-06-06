@@ -1,0 +1,13 @@
+en:
+  layouts:
+    application:
+      nav:
+        lists: Lists
+        privacy: Privacy
+        password_reset: Password reset
+        edit_password: Edit password
+        edit_profile: Edit profile
+        sign_out: Sign out
+        login: Login
+        register: Register
+        webhooks: Received webhooks

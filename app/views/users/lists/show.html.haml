@@ -1,0 +1,25 @@
+.section-head
+  %h2{ class: 'text-[1.4rem]' } Lists API
+
+%p.lead
+  Manage allow/block lists programmatically. This demo calls
+  %code create_list
+  and then
+  %code get_all_lists
+  \. A valid Castle API secret is required.
+
+.card.mt-4{ class: 'max-w-[640px]' }
+  = form_with url: users_lists_path, method: :post do
+    .field
+      %label{ for: 'name' } name
+      = text_field_tag :name, params[:name].presence || 'demo-blocklist', class: 'input'
+    .field
+      %label{ for: 'color' } color
+      = text_field_tag :color, params[:color].presence || '$red', class: 'input'
+    .field
+      %label{ for: 'primary_field' } primary field
+      = text_field_tag :primary_field, params[:primary_field].presence || 'user.email', class: 'input'
+    .btn-row
+      = submit_tag 'Create list', class: 'btn btn-primary'
+
+= render 'users/shared/api_result', error: @error, result: @result
