@@ -5,41 +5,44 @@ module Users
   class RegistrationsController < Devise::RegistrationsController
     layout 'devise'
 
-    # Sign up with Castle risk assessment.
+    # Sign up with Castle filtering. A registration is anonymous activity, so the
+    # attempt is filtered before the account is created.
     # @note A 'challenge' verdict is treated as 'allow' here; a real app would
-    #   step up to MFA. 'deny' rolls the registration back.
+    #   step up to MFA. 'deny' blocks the sign-up before the account is created.
     def create
       build_resource(sign_up_params)
 
-      if resource.save
-        if evaluate_registration(resource) == 'deny'
-          resource.destroy
-          flash[:error] = t('.access_denied')
-          redirect_to new_user_registration_url
-        else
-          sign_up(resource_name, resource)
-          set_flash_message! :notice, :signed_up
-          respond_with resource, location: after_sign_up_path_for(resource)
-        end
-      else
+      unless resource.valid?
         track_failed_registration
         clean_up_passwords resource
         set_minimum_password_length
         respond_with resource
+        return
       end
+
+      if evaluate_registration_attempt == 'deny'
+        flash[:error] = t('.access_denied')
+        redirect_to new_user_registration_url
+        return
+      end
+
+      resource.save
+      sign_up(resource_name, resource)
+      set_flash_message! :notice, :signed_up
+      respond_with resource, location: after_sign_up_path_for(resource)
     end
 
     private
 
-    # Sends a successful registration to the risk endpoint and returns the verdict.
-    # @param user [User]
+    # Filters the registration attempt while the visitor is still anonymous,
+    # before the account is created (so the email goes in params).
     # @return [String] the Castle policy action: 'allow', 'challenge' or 'deny'
-    def evaluate_registration(user)
-      castle.risk(
+    def evaluate_registration_attempt
+      castle.filter(
         type: '$registration',
-        status: '$succeeded',
+        status: '$attempted',
         request_token: castle_request_token,
-        user: { id: user.id, email: user.email }
+        params: { email: resource.email }
       ).dig(:policy, :action)
     rescue Castle::Error
       # Never block a sign-up because Castle is unhappy with the request.
@@ -47,17 +50,20 @@ module Users
     end
 
     # Reports an invalid registration attempt (e.g. an email already taken) to
-    # the filter endpoint.
+    # the filter endpoint, resolving any existing user via matching_user_id.
     def track_failed_registration
       email = sign_up_params[:email]
+      matching_user = User.find_by(email: email)
 
-      castle.filter(
+      options = {
         type: '$registration',
         status: '$failed',
         request_token: castle_request_token,
-        user: { email: email },
         params: { email: email }
-      )
+      }
+      options[:matching_user_id] = matching_user.id if matching_user
+
+      castle.filter(**options)
     rescue Castle::Error
       nil
     end

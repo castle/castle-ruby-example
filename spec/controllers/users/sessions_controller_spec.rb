@@ -24,7 +24,8 @@ RSpec.describe Users::SessionsController do
       before do
         # Since the expectations are handled after the redirect for invalid, we don't have a way
         # to reference the "future" castle object, so we have to stub all the instances
-        allow_any_instance_of(controller.castle.class).to receive(:filter)
+        allow_any_instance_of(controller.castle.class)
+          .to receive(:filter).and_return(policy: { action: 'allow' })
         post :create, params: { user: { email: user.email, password: rand.to_s } }
       end
 
@@ -42,7 +43,27 @@ RSpec.describe Users::SessionsController do
       end
     end
 
+    context 'when the attempt is filtered out' do
+      before do
+        allow(controller.castle).to receive(:filter).and_return(policy: { action: 'deny' })
+        allow(controller.castle).to receive(:risk)
+        post :create, params: { user: { email: user.email, password: password } }
+      end
+
+      it { expect(response).to redirect_to new_user_session_path }
+      it { expect(flash['error']).to eq I18n.t('users.sessions.create.access_denied') }
+      it { expect(controller.castle).not_to have_received(:risk) }
+    end
+
     context 'when login succeeded' do
+      let(:filter_args) do
+        {
+          type: '$login',
+          status: '$attempted',
+          request_token: nil,
+          params: { email: user.email }
+        }
+      end
       let(:risk_args) do
         {
           type: '$login',
@@ -53,6 +74,7 @@ RSpec.describe Users::SessionsController do
       end
 
       before do
+        allow(controller.castle).to receive(:filter).and_return(policy: { action: 'allow' })
         allow(controller.castle).to receive(:risk).and_return(verdict)
         post :create, params: { user: { email: user.email, password: password } }
       end
@@ -61,6 +83,7 @@ RSpec.describe Users::SessionsController do
         let(:verdict) { { policy: { action: 'allow' } } }
 
         it { expect(response).to redirect_to root_path }
+        it { expect(controller.castle).to have_received(:filter).with(filter_args) }
         it { expect(controller.castle).to have_received(:risk).with(risk_args) }
       end
 
@@ -83,6 +106,7 @@ RSpec.describe Users::SessionsController do
 
     context 'when Castle raises during risk assessment' do
       before do
+        allow(controller.castle).to receive(:filter).and_return(policy: { action: 'allow' })
         allow(controller.castle).to receive(:risk).and_raise(Castle::Error)
         post :create, params: { user: { email: user.email, password: password } }
       end

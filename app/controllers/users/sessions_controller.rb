@@ -8,10 +8,18 @@ module Users
     # Key that is used in Devise for user authentication
     AUTHENTICATION_KEY = 'email'
 
-    # Sign in with Castle risk assessment.
+    # Sign in with Castle. The attempt is filtered first while the visitor is
+    # still anonymous; a successful login is then risk-assessed, reusing the
+    # same request token.
     # @note A 'challenge' verdict is treated as 'allow' here; a real app would
     #   step up to MFA. 'deny' blocks the login.
     def create
+      if filter_login_attempt == 'deny'
+        flash[:error] = t('.access_denied')
+        redirect_to new_user_session_url
+        return
+      end
+
       if warden.authenticate(auth_options)
         if evaluate_login(current_user) == 'deny'
           warden.logout
@@ -43,20 +51,40 @@ module Users
 
     private
 
-    # Takes the request form data (login and password) and tries to find the user for which the
-    # authentication process failed and reports a failed login to the filter endpoint.
+    # The submitted login email (anonymous form data, before authentication).
+    def login_email
+      params.dig(:user, AUTHENTICATION_KEY)
+    end
+
+    # Filters the login attempt while the visitor is still anonymous, before the
+    # credentials are checked (so the email goes in params).
+    # @return [String] the Castle policy action: 'allow', 'challenge' or 'deny'
+    def filter_login_attempt
+      castle.filter(
+        type: '$login',
+        status: '$attempted',
+        request_token: castle_request_token,
+        params: { email: login_email }
+      ).dig(:policy, :action)
+    rescue Castle::Error
+      'allow'
+    end
+
+    # Reports a failed login to the filter endpoint, resolving any existing user
+    # via matching_user_id.
     def track_failed_login
-      user_params = params.fetch('user') { {} }.except(*Rails.application.config.filter_parameters)
-      email = user_params[AUTHENTICATION_KEY]
+      email = login_email
       user = User.find_by(AUTHENTICATION_KEY => email)
 
-      castle.filter(
+      options = {
         type: '$login',
         status: '$failed',
         request_token: castle_request_token,
-        user: { id: user&.id, email: email },
         params: { email: email }
-      )
+      }
+      options[:matching_user_id] = user.id if user
+
+      castle.filter(**options)
     rescue Castle::Error
       nil
     end

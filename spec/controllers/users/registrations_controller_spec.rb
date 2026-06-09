@@ -18,7 +18,7 @@ RSpec.describe Users::RegistrationsController do
     end
 
     context 'when the registration is allowed' do
-      before { allow(controller.castle).to receive(:risk).and_return(policy: { action: 'allow' }) }
+      before { allow(controller.castle).to receive(:filter).and_return(policy: { action: 'allow' }) }
 
       it 'creates a new user' do
         expect { post :create, params: params }.to change(User, :count).by(1)
@@ -31,22 +31,22 @@ RSpec.describe Users::RegistrationsController do
         expect(response).to redirect_to root_path
       end
 
-      it 'scores the registration with the risk endpoint' do
+      it 'filters the registration attempt before creating the account' do
         post :create, params: params
 
-        expect(controller.castle).to have_received(:risk).with(
+        expect(controller.castle).to have_received(:filter).with(
           type: '$registration',
-          status: '$succeeded',
+          status: '$attempted',
           request_token: nil,
-          user: hash_including(email: email)
+          params: { email: email }
         )
       end
     end
 
     context 'when the registration is denied' do
-      before { allow(controller.castle).to receive(:risk).and_return(policy: { action: 'deny' }) }
+      before { allow(controller.castle).to receive(:filter).and_return(policy: { action: 'deny' }) }
 
-      it 'rolls the registration back' do
+      it 'does not create the account' do
         expect { post :create, params: params }.not_to change(User, :count)
       end
 
@@ -57,8 +57,8 @@ RSpec.describe Users::RegistrationsController do
       end
     end
 
-    context 'when Castle raises during risk assessment' do
-      before { allow(controller.castle).to receive(:risk).and_raise(Castle::Error) }
+    context 'when Castle raises while filtering the attempt' do
+      before { allow(controller.castle).to receive(:filter).and_raise(Castle::Error) }
 
       it 'fails open and keeps the user' do
         expect { post :create, params: params }.to change(User, :count).by(1)
