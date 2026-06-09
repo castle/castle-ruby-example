@@ -13,16 +13,20 @@
 %ul.prose-list.list-disc.pl-5
   %li
     %strong Sign up
-    &mdash; new registrations are scored with the
-    %code risk
-    endpoint (<code>$registration</code>); a denied verdict rolls the sign-up back.
+    &mdash; registrations are filtered before the account is created
+    (<code>$registration / $attempted</code>); a denied verdict blocks the
+    sign-up, and an invalid attempt (e.g. an email already taken) is reported to
+    %code filter
+    as <code>$failed</code>.
   %li
     %strong Login
-    &mdash; successful logins are scored with the
+    &mdash; the attempt is filtered first (<code>$login / $attempted</code>),
+    then a successful login is scored with the
     %code risk
-    endpoint; failed logins go to
+    endpoint (<code>$succeeded</code>) while a wrong password or unknown user
+    goes to
     %code filter
-    and the verdict can allow, challenge or deny the user.
+    (<code>$failed</code>); the verdict can allow, challenge or deny the user.
   %li
     %strong Logout, profile updates, custom events & password reset
     &mdash; recorded with the non-blocking
