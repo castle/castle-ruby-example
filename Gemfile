@@ -5,7 +5,7 @@ source 'https://rubygems.org'
 ruby file: '.ruby-version'
 
 gem 'bootsnap', require: false
-gem 'castle-rb', '~> 9.1'
+gem 'castle-rb', github: 'castle/castle-ruby', branch: 'develop'
 gem 'devise', '~> 5.0'
 gem 'dotenv-rails'
 gem 'hamlit-rails'

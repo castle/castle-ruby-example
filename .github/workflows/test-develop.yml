@@ -1,0 +1,39 @@
+name: Test against SDK develop
+
+# Exercises the example app against the unreleased Castle Ruby SDK (develop
+# branch). This is the permanent test/sdk-develop branch: every push to it runs
+# the suite against the latest develop. Nightly/manual runs require this file to
+# also live on the default branch (GitHub only honours schedule/workflow_dispatch
+# from the default branch).
+on:
+  push:
+    branches: [test/sdk-develop]
+  workflow_dispatch:
+  schedule:
+    - cron: "0 6 * * *"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: false
+
+      - name: Point the app at the SDK develop branch
+        run: ./scripts/set-sdk-version.sh develop
+
+      - name: Install dependencies
+        run: bundle install
+
+      - name: Set up the test database
+        run: |
+          cp config/database.yml.example config/database.yml
+          bundle exec rails db:test:prepare
+
+      - name: Run the test suite
+        run: bundle exec rspec
