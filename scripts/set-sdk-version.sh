@@ -13,6 +13,8 @@ ruby - "$target" <<'RUBY'
 target = ARGV[0]
 path = "Gemfile"
 content = File.read(path)
+pattern = /^\s*gem ['"]castle-rb['"].*$/
+abort "no castle-rb gem line found in #{path}" unless content.match?(pattern)
 line =
   if target == "develop"
     "gem 'castle-rb', github: 'castle/castle-ruby', branch: 'develop'"
@@ -20,9 +22,7 @@ line =
     minor = target.split(".")[0, 2].join(".")
     "gem 'castle-rb', '~> #{minor}'"
   end
-updated = content.gsub(/^\s*gem ['"]castle-rb['"].*$/, line)
-abort "no castle-rb gem line found in #{path}" if updated == content
-File.write(path, updated)
+File.write(path, content.gsub(pattern, line))
 RUBY
 
 bundle lock
