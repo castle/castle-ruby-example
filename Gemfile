@@ -5,7 +5,9 @@ source 'https://rubygems.org'
 ruby file: '.ruby-version'
 
 gem 'bootsnap', require: false
-gem 'castle-rb', '~> 9.1'
+# Test against the tagged 9.2.0 release before it lands on RubyGems.
+# Once published, switch back to the registry version: gem 'castle-rb', '~> 9.2'
+gem 'castle-rb', github: 'castle/castle-ruby', tag: 'v9.2.0'
 gem 'devise', '~> 5.0'
 gem 'dotenv-rails'
 gem 'hamlit-rails'
