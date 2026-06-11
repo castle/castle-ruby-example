@@ -1,5 +1,10 @@
 %h2.mb-4= t('.title')
 
+.btn-row.mb-4{ style: 'margin-top:0' }
+  %button.btn.btn-ghost{ type: 'button', onclick: "fillForm('valid')" } valid user + pw
+  %button.btn.btn-ghost{ type: 'button', onclick: "fillForm('bad_pw')" } valid user, bad pw
+  %button.btn.btn-ghost{ type: 'button', onclick: "fillForm('bad_user')" } invalid username
+
 = simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: { data: { castle: true } }) do |f|
   .form-inputs
     = f.input :email, required: false, autofocus: true
@@ -8,3 +13,26 @@
     = f.button :submit, t('.button'), class: 'btn btn-primary w-full'
 
 = render 'users/shared/links'
+
+:javascript
+  (function () {
+    var VALID_USER = "#{j DemoAccount.email}";
+    var VALID_PW = "#{j DemoAccount.password}";
+    var BAD_PW = "#{j DemoAccount.invalid_password}";
+
+    window.fillForm = function (state) {
+      var email = document.getElementById("user_email");
+      var password = document.getElementById("user_password");
+      if (!email || !password) return;
+      if (state === "valid") {
+        email.value = VALID_USER;
+        password.value = VALID_PW;
+      } else if (state === "bad_pw") {
+        email.value = VALID_USER;
+        password.value = BAD_PW;
+      } else {
+        email.value = "invalid_user@abc.com";
+        password.value = BAD_PW;
+      }
+    };
+  })();

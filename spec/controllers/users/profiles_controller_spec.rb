@@ -41,7 +41,7 @@ RSpec.describe Users::ProfilesController do
             type: '$profile_update',
             status: '$failed',
             request_token: nil,
-            user: { id: controller.current_user.id, email: controller.current_user.email }
+            user: { id: controller.current_user.id.to_s, email: controller.current_user.email }
           }
         end
 
@@ -62,7 +62,7 @@ RSpec.describe Users::ProfilesController do
             type: '$profile_update',
             status: '$succeeded',
             request_token: nil,
-            user: { id: controller.current_user.id, email: controller.current_user.email }
+            user: { id: controller.current_user.id.to_s, email: controller.current_user.email }
           }
         end
 
@@ -73,6 +73,10 @@ RSpec.describe Users::ProfilesController do
 
         it { expect(response).to redirect_to root_path }
         it { expect(controller.castle).to have_received(:log).with(log_expected_data) }
+
+        it 'records the profile update for the results panel' do
+          expect(flash[:castle_results].to_a.first).to include('endpoint' => 'log')
+        end
       end
 
       context 'when Castle raises while logging' do

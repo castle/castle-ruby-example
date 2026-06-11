@@ -53,6 +53,10 @@ RSpec.describe Users::SessionsController do
       it { expect(response).to redirect_to new_user_session_path }
       it { expect(flash['error']).to eq I18n.t('users.sessions.create.access_denied') }
       it { expect(controller.castle).not_to have_received(:risk) }
+
+      it 'records the filter verdict for the results panel' do
+        expect(flash[:castle_results].to_a.first).to include('endpoint' => 'filter')
+      end
     end
 
     context 'when login succeeded' do
@@ -69,7 +73,7 @@ RSpec.describe Users::SessionsController do
           type: '$login',
           status: '$succeeded',
           request_token: nil,
-          user: { id: user.id, email: user.email }
+          user: { id: user.id.to_s, email: user.email }
         }
       end
 
@@ -85,6 +89,15 @@ RSpec.describe Users::SessionsController do
         it { expect(response).to redirect_to root_path }
         it { expect(controller.castle).to have_received(:filter).with(filter_args) }
         it { expect(controller.castle).to have_received(:risk).with(risk_args) }
+
+        it 'records the filter then risk calls for the results panel' do
+          endpoints = flash[:castle_results].to_a.map { |entry| entry['endpoint'] }
+          expect(endpoints).to eq(%w[filter risk])
+        end
+
+        it 'records the risk response for display' do
+          expect(flash[:castle_results].to_a.last['response']).to include('policy' => { 'action' => 'allow' })
+        end
       end
 
       context 'when user challenged' do
@@ -101,6 +114,10 @@ RSpec.describe Users::SessionsController do
         it { expect(response).to redirect_to new_user_session_path }
         it { expect(flash['error']).to eq error_message }
         it { expect(controller.castle).to have_received(:risk).with(risk_args) }
+
+        it 'records the denied risk verdict for the results panel' do
+          expect(flash[:castle_results].to_a.last['response']).to include('policy' => { 'action' => 'deny' })
+        end
       end
     end
 
@@ -120,7 +137,7 @@ RSpec.describe Users::SessionsController do
   describe 'DELETE destroy' do
     with_user
 
-    let(:log_args) { { type: '$logout', status: '$succeeded', request_token: nil, user: { id: user.id } } }
+    let(:log_args) { { type: '$logout', status: '$succeeded', request_token: nil, user: { id: user.id.to_s } } }
 
     before do
       allow(controller.castle).to receive(:log)
@@ -130,5 +147,9 @@ RSpec.describe Users::SessionsController do
     it { expect(flash[:notice]).to eq I18n.t('devise.sessions.signed_out') }
     it { expect(response).to redirect_to root_path }
     it { expect(controller.castle).to have_received(:log).with(log_args) }
+
+    it 'records the logout for the results panel' do
+      expect(flash[:castle_results].to_a.first).to include('endpoint' => 'log')
+    end
   end
 end

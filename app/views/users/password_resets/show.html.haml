@@ -24,13 +24,3 @@
       = password_field_tag :password, nil, class: 'input'
     .btn-row
       = submit_tag 'Submit', class: 'btn btn-primary'
-
-- if @error
-  .alert.alert-danger.mt-4= @error
-- elsif @logged
-  .alert.alert-success.mt-4
-    Logged
-    %code= "$password_reset / #{@status}"
-    via the
-    %code log
-    endpoint.

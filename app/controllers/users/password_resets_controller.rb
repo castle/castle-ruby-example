@@ -12,17 +12,17 @@ module Users
     # a successful one. Either way we only log the event to Castle.
     def create
       status = current_user.valid_password?(params[:password].to_s) ? '$failed' : '$succeeded'
-      @status = status
 
-      castle.log(
+      payload = {
         type: '$password_reset',
         status: status,
         request_token: castle_request_token,
-        user: { id: current_user.id, email: current_user.email }
-      )
-      @logged = true
+        user: { id: current_user.id.to_s, email: current_user.email }
+      }
+      result = castle.log(**payload)
+      record_castle_result(endpoint: 'log', payload: payload, response: result)
     rescue Castle::Error => e
-      @error = e.message
+      record_castle_result(endpoint: 'log', payload: payload, error: e)
     ensure
       render :show
     end

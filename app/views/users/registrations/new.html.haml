@@ -1,5 +1,9 @@
 %h2.mb-4 Sign up
 
+.btn-row.mb-4{ style: 'margin-top:0' }
+  %button.btn.btn-ghost{ type: 'button', onclick: "fillForm('new')" } new user
+  %button.btn.btn-ghost{ type: 'button', onclick: "fillForm('existing')" } existing email
+
 = simple_form_for(resource, as: resource_name, url: registration_path(resource_name), html: { data: { castle: true } }) do |f|
   = f.error_notification
   .form-inputs
@@ -11,3 +15,23 @@
     = f.button :submit, t('.button'), class: 'btn btn-primary w-full'
 
 = render "users/shared/links"
+
+:javascript
+  (function () {
+    var VALID_USER = "#{j DemoAccount.email}";
+    var VALID_PW = "#{j DemoAccount.password}";
+
+    window.fillForm = function (state) {
+      var email = document.getElementById("user_email");
+      var password = document.getElementById("user_password");
+      var confirmation = document.getElementById("user_password_confirmation");
+      if (!email || !password) return;
+      if (state === "existing") {
+        email.value = VALID_USER;
+      } else {
+        email.value = "lois.lane@dailyplanet.com";
+      }
+      password.value = VALID_PW;
+      if (confirmation) confirmation.value = VALID_PW;
+    };
+  })();

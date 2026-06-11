@@ -21,18 +21,23 @@ module Users
     end
 
     # After action that logs the profile update to Castle with the non-blocking
-    # log endpoint, noting whether the change was valid.
+    # log endpoint, noting whether the change was valid. On the redirecting
+    # (successful) path the result is persisted so the next page can show it.
     def track_profile_update
       status = current_user.valid? ? '$succeeded' : '$failed'
 
-      castle.log(
+      payload = {
         type: '$profile_update',
         status: status,
         request_token: castle_request_token,
-        user: { id: current_user.id, email: current_user.email }
-      )
-    rescue Castle::Error
-      nil
+        user: { id: current_user.id.to_s, email: current_user.email }
+      }
+      result = castle.log(**payload)
+      record_castle_result(endpoint: 'log', payload: payload, response: result)
+    rescue Castle::Error => e
+      record_castle_result(endpoint: 'log', payload: payload, error: e)
+    ensure
+      persist_castle_results if response.redirect?
     end
   end
 end

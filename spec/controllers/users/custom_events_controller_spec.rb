@@ -24,7 +24,7 @@ RSpec.describe Users::CustomEventsController do
           name: 'Demo custom event',
           status: '$succeeded',
           request_token: nil,
-          user: { id: user.id, email: user.email }
+          user: { id: user.id.to_s, email: user.email }
         )
       end
     end
