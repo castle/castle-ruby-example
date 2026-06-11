@@ -25,6 +25,9 @@ SDK (9.x).
 - **browser SDK** – the `@castleio/castle-js` SDK mints a request token in the
   browser for every Castle-bound form (sign up, login, profile update, custom
   event, logout) and forwards it to the backend.
+- **Castle activity panel** – every flow renders the endpoint called, the
+  payload sent to Castle and the response (verdict, risk score and signals) so
+  you can see exactly what each call does.
 
 ## Screenshots
 

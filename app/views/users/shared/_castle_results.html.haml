@@ -1,0 +1,31 @@
+- entries = castle_results
+- if entries.present?
+  .card.mt-6{ class: 'mx-auto max-w-[640px]' }
+    .eyebrow Castle activity
+    - entries.each do |entry|
+      - response = entry['response']
+      - action = response.is_a?(Hash) ? response.dig('policy', 'action') : nil
+      - risk = response.is_a?(Hash) ? response['risk'] : nil
+      - signals = response.is_a?(Hash) ? response['signals'] : nil
+      - signal_names = signals.is_a?(Hash) ? signals.keys : Array(signals)
+      .result-block
+        %span.badge.endpoint= "/#{entry['endpoint']}"
+        - if action || risk
+          %div{ class: "verdict verdict-#{action || 'unknown'} mt-2" }
+            - if action
+              %span.verdict-action= action
+            - if risk
+              %span.verdict-score
+                risk
+                %strong= format('%.2f', risk)
+        - if signal_names.present?
+          .signals
+            - signal_names.each do |name|
+              %span.chip= name
+        - if entry['error'].present?
+          .alert.alert-danger.mt-2= entry['error']
+        .label.mt-3 Payload sent to Castle
+        %pre.json= JSON.pretty_generate(entry['payload'])
+        - if response.present?
+          .label.mt-3 Response from Castle
+          %pre.json= JSON.pretty_generate(response)

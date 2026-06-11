@@ -21,5 +21,3 @@
       = text_field_tag :primary_field, params[:primary_field].presence || 'user.email', class: 'input'
     .btn-row
       = submit_tag 'Create list', class: 'btn btn-primary'
-
-= render 'users/shared/api_result', error: @error, result: @result

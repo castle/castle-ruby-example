@@ -204,3 +204,72 @@ table.table td {
 .field_with_errors {
   display: contents;
 }
+
+/*
+ * Castle activity panel: the endpoint badge, verdict banner (action + risk
+ * score + signals) and the JSON payload/response blocks. Kept in sync with the
+ * Node, Python and PHP Castle example apps.
+ */
+.result-block {
+  @apply mt-4;
+}
+
+.result-block .label {
+  @apply mb-1.5 text-[0.78rem] font-bold uppercase tracking-wide text-muted;
+}
+
+pre.json {
+  @apply m-0 overflow-auto rounded-lg border border-border bg-bg-soft p-4 font-mono text-[0.85rem] leading-relaxed;
+}
+
+.badge {
+  @apply inline-block rounded-full border border-border px-2 py-0.5 text-xs font-semibold;
+}
+
+.badge.endpoint {
+  @apply border-accent/40 bg-accent/10 font-mono text-accent;
+}
+
+.verdict {
+  @apply flex items-center gap-3.5 rounded-lg border border-border bg-surface-2 px-4 py-2.5;
+}
+
+.verdict-action {
+  @apply rounded-full px-2.5 py-1 text-[0.85rem] font-bold uppercase tracking-wider;
+}
+
+.verdict-score {
+  @apply text-[0.9rem] text-muted;
+}
+
+.verdict-allow {
+  @apply border-success/40 bg-success/10;
+}
+
+.verdict-allow .verdict-action {
+  @apply bg-success text-white;
+}
+
+.verdict-challenge {
+  @apply border-challenge/40 bg-challenge/10;
+}
+
+.verdict-challenge .verdict-action {
+  @apply bg-challenge text-ink;
+}
+
+.verdict-deny {
+  @apply border-danger/40 bg-danger/10;
+}
+
+.verdict-deny .verdict-action {
+  @apply bg-danger text-white;
+}
+
+.signals {
+  @apply mt-2.5 flex flex-wrap gap-1.5;
+}
+
+.signals .chip {
+  @apply rounded-full border border-border bg-bg-soft px-2 py-0.5 font-mono text-xs text-muted;
+}

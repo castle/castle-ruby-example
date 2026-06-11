@@ -42,7 +42,7 @@ RSpec.describe Users::PasswordResetsController do
           type: '$password_reset',
           status: '$succeeded',
           request_token: nil,
-          user: { id: user.id, email: user.email }
+          user: { id: user.id.to_s, email: user.email }
         )
       end
     end

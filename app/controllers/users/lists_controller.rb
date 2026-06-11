@@ -8,19 +8,23 @@ module Users
     # Renders the form (and any result from a previous POST).
     def show; end
 
-    # Creates a list and then fetches every list, echoing the Castle responses.
+    # Creates a list and then fetches every list, recording the Castle responses.
     def create
-      @payload = {
+      payload = {
         name: params[:name].presence || 'demo-blocklist',
         color: params[:color].presence || '$red',
         primary_field: params[:primary_field].presence || 'user.email'
       }
 
-      created = castle.create_list(@payload)
+      created = castle.create_list(payload)
       all_lists = castle.get_all_lists
-      @result = { created: created, all_lists: all_lists }
+      record_castle_result(
+        endpoint: 'lists',
+        payload: payload,
+        response: { created: created, all_lists: all_lists }
+      )
     rescue Castle::Error => e
-      @error = e.message
+      record_castle_result(endpoint: 'lists', payload: payload, error: e)
     ensure
       render :show
     end

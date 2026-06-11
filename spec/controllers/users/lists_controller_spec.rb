@@ -44,6 +44,12 @@ RSpec.describe Users::ListsController do
         )
         expect(controller.castle).to have_received(:get_all_lists)
       end
+
+      it 'renders the Castle activity panel with the call result' do
+        expect(response.body).to include('Castle activity')
+        expect(response.body).to include('/lists')
+        expect(response.body).to include('Response from Castle')
+      end
     end
 
     context 'when Castle raises' do

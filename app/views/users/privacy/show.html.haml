@@ -19,5 +19,3 @@
     .btn-row
       = button_tag 'Request user data', name: 'commit_action', value: 'request', class: 'btn btn-primary'
       = button_tag 'Delete user data', name: 'commit_action', value: 'delete', class: 'btn'
-
-= render 'users/shared/api_result', error: @error, result: @result
