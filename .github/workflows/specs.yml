@@ -9,14 +9,19 @@ jobs:
   specs:
     runs-on: ubuntu-latest
 
+    strategy:
+      fail-fast: false
+      matrix:
+        ruby-version: ['3.2', '3.3', '3.4']
+
     steps:
       - uses: actions/checkout@v5
 
       - name: Set up Ruby
         uses: ruby/setup-ruby@v1
         with:
-          # Reads the version from .ruby-version and installs the bundler
-          # pinned in Gemfile.lock (BUNDLED WITH).
+          # Installs the bundler pinned in Gemfile.lock (BUNDLED WITH).
+          ruby-version: ${{ matrix.ruby-version }}
           bundler-cache: true
 
       - name: Set up the test database
