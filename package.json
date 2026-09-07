@@ -1,0 +1,14 @@
+{
+  "name": "castle-ruby-example",
+  "version": "1.0.0",
+  "private": false,
+  "description": "A Rails app demonstrating key Castle workflows on top of the Castle Ruby SDK.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/castle/castle-ruby-example.git"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@castleio/castle-js": "^2.8.4"
+  }
+}
