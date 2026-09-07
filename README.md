@@ -57,6 +57,13 @@ cd castle-ruby-example
 bundle install
 ```
 
+The Castle browser SDK is served at runtime straight from `node_modules`, so
+install it too:
+
+```bash
+npm install
+```
+
 Configure your environment and database:
 
 ```bash

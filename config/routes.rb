@@ -25,5 +25,7 @@ Rails.application.routes.draw do
     resources :castle_webhooks, only: %i[index create]
   end
 
+  get '/vendor/castle-js/*filename', to: 'vendor/castle_js#show'
+
   root to: 'main#index'
 end

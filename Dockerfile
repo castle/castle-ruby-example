@@ -1,5 +1,11 @@
 # syntax=docker/dockerfile:1
 
+# Fetch the Castle browser SDK from npm (served at runtime from node_modules).
+FROM node:20-slim AS frontend
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm ci
+
 # ---------- Build stage ----------
 FROM ruby:3.4.9-slim AS build
 
@@ -21,6 +27,7 @@ RUN gem install bundler -v "${BUNDLER_VERSION}" && \
     rm -rf "${BUNDLE_PATH}"/ruby/*/cache
 
 COPY . .
+COPY --from=frontend /app/node_modules/@castleio/castle-js/dist ./node_modules/@castleio/castle-js/dist
 
 # The real database.yml is environment-specific and git-ignored; derive it from
 # the committed example so the build is reproducible from a clean checkout.
