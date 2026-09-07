@@ -2,8 +2,6 @@
 
 source 'https://rubygems.org'
 
-ruby file: '.ruby-version'
-
 gem 'bootsnap', require: false
 gem 'castle-rb', '~> 9.1'
 gem 'devise', '~> 5.0'
