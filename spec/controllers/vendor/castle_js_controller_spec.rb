@@ -20,5 +20,12 @@ RSpec.describe Vendor::CastleJsController do
       expect(response).to have_http_status(:ok)
       expect(response.media_type).to eq('application/javascript')
     end
+
+    it 'serves castle.umd.js from the npm install' do
+      get :show, params: { filename: 'castle.umd.js' }
+
+      expect(response).to have_http_status(:ok)
+      expect(response.media_type).to eq('application/javascript')
+    end
   end
 end
