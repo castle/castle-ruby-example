@@ -2,11 +2,9 @@
   %h2{ class: 'text-[1.4rem]' } Password reset
 
 %p.lead
-  Assesses a completed password reset with
-  %code $profile_reset
-  on
-  %code /risk
-  \.
+  Records the password-reset event with the non-blocking
+  %code log
+  endpoint, which stores the event without returning a verdict.
 
 %p.text-muted{ class: 'text-[0.9rem]' }
   Assume the user already passed your reset challenge (e.g. an emailed OTP).

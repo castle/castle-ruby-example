@@ -31,19 +31,18 @@ RSpec.describe Users::PasswordResetsController do
       with_user
 
       before do
-        allow(controller.castle).to receive(:risk)
+        allow(controller.castle).to receive(:log)
         post :create, params: { password: 'a-brand-new-password' }
       end
 
       it { expect(response).to render_template(:show) }
 
-      it 'risks $profile_reset / $succeeded' do
-        expect(controller.castle).to have_received(:risk).with(
+      it 'logs $profile_reset / $succeeded' do
+        expect(controller.castle).to have_received(:log).with(
           type: '$profile_reset',
           status: '$succeeded',
           request_token: nil,
-          user: { id: user.id.to_s, email: user.email },
-          changeset: { password: { changed: true } }
+          user: { id: user.id.to_s, email: user.email }
         )
       end
     end
@@ -54,12 +53,12 @@ RSpec.describe Users::PasswordResetsController do
       before do
         @request.env['devise.mapping'] = Devise.mappings[:user]
         sign_in user
-        allow(controller.castle).to receive(:risk)
+        allow(controller.castle).to receive(:log)
         post :create, params: { password: 'current-password-1' }
       end
 
-      it 'risks $profile_reset / $failed' do
-        expect(controller.castle).to have_received(:risk).with(hash_including(status: '$failed'))
+      it 'logs $profile_reset / $failed' do
+        expect(controller.castle).to have_received(:log).with(hash_including(status: '$failed'))
       end
     end
 
@@ -67,7 +66,7 @@ RSpec.describe Users::PasswordResetsController do
       with_user
 
       before do
-        allow(controller.castle).to receive(:risk).and_raise(Castle::Error)
+        allow(controller.castle).to receive(:log).and_raise(Castle::Error)
         post :create, params: { password: 'a-brand-new-password' }
       end
 
