@@ -14,7 +14,7 @@ module Users
       status = current_user.valid_password?(params[:password].to_s) ? '$failed' : '$succeeded'
 
       payload = {
-        type: '$password_reset',
+        type: '$profile_reset',
         status: status,
         request_token: castle_request_token,
         user: { id: current_user.id.to_s, email: current_user.email }

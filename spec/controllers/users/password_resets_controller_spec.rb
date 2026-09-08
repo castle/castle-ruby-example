@@ -37,9 +37,9 @@ RSpec.describe Users::PasswordResetsController do
 
       it { expect(response).to render_template(:show) }
 
-      it 'logs $password_reset / $succeeded' do
+      it 'logs $profile_reset / $succeeded' do
         expect(controller.castle).to have_received(:log).with(
-          type: '$password_reset',
+          type: '$profile_reset',
           status: '$succeeded',
           request_token: nil,
           user: { id: user.id.to_s, email: user.email }
@@ -57,7 +57,7 @@ RSpec.describe Users::PasswordResetsController do
         post :create, params: { password: 'current-password-1' }
       end
 
-      it 'logs $password_reset / $failed' do
+      it 'logs $profile_reset / $failed' do
         expect(controller.castle).to have_received(:log).with(hash_including(status: '$failed'))
       end
     end
