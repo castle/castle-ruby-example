@@ -3,7 +3,7 @@
 source 'https://rubygems.org'
 
 gem 'bootsnap', require: false
-gem 'castle-rb', '~> 9.1'
+gem 'castle-rb', '~> 9.3'
 gem 'devise', '~> 5.0'
 gem 'dotenv-rails'
 gem 'hamlit-rails'
