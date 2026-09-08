@@ -21,14 +21,15 @@
     var submitted = false;
 
     form.addEventListener("submit", function (event) {
-      var sdkReady = window.Castle && typeof Castle.createRequestToken === "function";
+      var sdk = window.__castle || window.Castle;
+      var sdkReady = sdk && typeof sdk.createRequestToken === "function";
       if (submitted || !sdkReady) {
         return; // already handled, or no SDK configured — submit as-is
       }
 
       event.preventDefault();
 
-      Castle.createRequestToken()
+      sdk.createRequestToken()
         .then(function (token) {
           setToken(form, token);
         })
