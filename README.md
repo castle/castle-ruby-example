@@ -12,10 +12,11 @@ SDK (9.x).
 - **login** – successful logins are scored with the `risk` endpoint; failed
   logins are sent to `filter`. The returned verdict (`allow`, `challenge` or
   `deny`) drives whether the session is allowed.
-- **logout, profile updates, custom events & password reset** – recorded with
-  the non-blocking `log` endpoint. The custom event is available from the
-  profile page, and Lists / Privacy / Password reset from the nav, once signed
-  in.
+- **logout, profile updates & custom events** – recorded with the non-blocking
+  `log` endpoint. The custom event is available from the profile page, and
+  Lists / Privacy / Password reset from the nav, once signed in.
+- **password reset** – `$profile_reset` to `risk` (completed reset, after the
+  user already passed the reset challenge).
 - **Lists API** – create a list and fetch all lists with `create_list` /
   `get_all_lists`.
 - **Privacy API** – honor GDPR/CCPA access and erasure requests with
